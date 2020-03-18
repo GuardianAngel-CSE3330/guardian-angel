@@ -11,7 +11,7 @@ const dbService = require('./db.service');  // PROVIDE ACCESS TO DB
 // DEFINE ROUTES WITH FUNCTION CALLBACKS
 router.get('/', helloworld);
 router.get('/db-test', DBTest);
-router.post('/users/create', createUser)
+router.post('/user/create', createUser)
 
 ///////////////////////////////////////////////////
 // SHIT FOR JWT AUTHENTICATION
