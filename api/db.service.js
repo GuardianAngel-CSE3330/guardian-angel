@@ -35,8 +35,8 @@ function getUser(email /*string*/) {
 // CREATE A SINGLE USER
 function createUser(user /*user object*/) {
     return new Promise((resolve, reject) => {
-        connection().query(`INSERT INTO users (email, hash, salt, role, firstname, lastname)
-        VALUES ('${user.email}', '${user.hash}', '${user.salt}', '${user.role}', '${user.firstname}', '${user.lastname}')`,
+        connection().query(`INSERT INTO users (email, hash, role, firstname, lastname)
+        VALUES ('${user.email}', '${user.hash}', '${user.role}', '${user.firstname}', '${user.lastname}')`,
         (error, results, fields) => {
             if (error) {
                 reject (error);
