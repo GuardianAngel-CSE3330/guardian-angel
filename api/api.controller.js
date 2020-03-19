@@ -2,23 +2,18 @@ const express = require('express');                 // WE NEED EXPRESS HERE TOO
 const router = express.Router();                    // CREATE A ROUTER
 const jwt = require('jsonwebtoken');                // FOR AUTHENTICATION
 const _ = require('lodash');                        // FOR OBJECT MANIPULATION
-const JWT_KEY = require('../config/key').token;     // FOR SIGNING JWT TOKENS
-const bcrypt = require('bcryptjs');                 // FOR SALTING AND HASHING
 
 // SERVICES
-const dbService = require('./db.service');  // PROVIDE ACCESS TO DB
+const dbService = require('./db.service');              // PROVIDE ACCESS TO DB
+const jwtService = require('./jwt.service')             // PROVIDE SECURITY FUNCTIONALITY
+const passwordService = require('./password.service');  // PROVIDE PASSWORD HASHING FUNCTIONALITY
 
 // DEFINE ROUTES WITH FUNCTION CALLBACKS
 router.get('/', helloworld);
 router.get('/db-test', DBTest);
-router.post('/user/create', createUser)
+router.post('/user/create', createUser);
+router.post('/user/login', loginUser);
 
-///////////////////////////////////////////////////
-// SHIT FOR JWT AUTHENTICATION
-///////////////////////////////////////////////////
-function createToken(user) {
-    return jwt.sign(_.omit(user, ['hash', 'salt']), JWT_KEY, {expiresIn: 60 * 60 * 5});
-}
 
 ////////////////////////////////////////////////////
 // DEFINE FUNCTIONS FOR ROUTES
@@ -41,7 +36,7 @@ function DBTest(request, response, next) {
     })
 }
 
-// BODY NEEDS: email, firstname, lastname, password, 
+// BODY NEEDS: email, firstname, lastname, password, (role)
 function createUser(request, response, next) {
     console.log("received request to create a user");
 
@@ -76,45 +71,49 @@ function createUser(request, response, next) {
             // IF A USER WITH THAT EMAIL DOES NOT ALREADY EXIST, CREATE A NEW ONE!
             else {
                 
-                // GENERATE A SALT
-                bcrypt.genSalt(10, (err, salt) => {
-                    if (err) {
-                        throw err;
-                    }
+                // GENERATE A SALT FOR SALTING THE PASSWORD HASH
+                passwordService.generateSalt()
+                    .then( (salt) => {
 
-                    bcrypt.hash(request.body.password, salt, (error, hash) => {
-                        if (error) {
-                            throw error;
-                        }
-
-                        // NOW WE HAVE A HASH, SO ASSEMBLE A USER OBJECT
-                        let newUser = {
-                            'email': request.body.email,
-                            'hash': hash,
-                            'role': request.body.role || 'user',
-                            'salt': salt,
-                            'firstname': request.body.firstname,
-                            'lastname': request.body.lastname
-                        }
-
-                        // USE THE DB SERVER TO CREATE A USER
-                        dbService.createUser(newUser)
-                            .then(result => {
-
-                                // SEND THE RESPONSE
-                                response.status(201).send({
-                                    id_token: createToken(newUser)
-                                })
+                        // GENREATE A HASH FOR THE SALTED PASSWORD
+                        passwordService.generateHash(request.body.password, salt)
+                            .then( (hash) => {
+                                
+                                // CREATE A NEW USER OBJECT WITH THE HASH AND SALT
+                                let newUser = {
+                                    'email': request.body.email,
+                                    'hash': hash,
+                                    'role': request.body.role || 'user',
+                                    'firstname': request.body.firstname,
+                                    'lastname': request.body.lastname
+                                }
+        
+                                // USE THE DB SERVER TO CREATE A USER
+                                dbService.createUser(newUser)
+                                    .then(result => {
+        
+                                        // SEND THE RESPONSE
+                                        response.status(201).send({
+                                            id_token: jwtService.createToken(newUser)
+                                        })
+                                    })
+                                    .catch(err => {
+                                        response.status(500).json({
+                                            message: `An error ocurred: ${err}`
+                                        })
+                                    })
                             })
-                            .catch(err => {
+                            .catch ( (err) => {
                                 response.status(500).json({
                                     message: `An error ocurred: ${err}`
                                 })
                             })
-
                     })
-                });
-                    
+                    .catch( (err) => {
+                        response.status(500).json({
+                            message: `An error ocurred: ${err}`
+                        })
+                    })
             }
         })
         .catch (err => {
@@ -123,6 +122,62 @@ function createUser(request, response, next) {
                 message: `An Error ocurred: ${err}`
             })
         })
+}
+
+// BODY NEEDS: email, password
+function loginUser(request, response, next) {
+    console.log("received a request to login a user");
+
+    // ENSURE THE REQUEST IS PROPERLY FORMED
+    if (!request.body.email || !request.body.password) {
+        response.status(400).json({
+            "message": "Email or password was not specified!"
+        });
+    }
+    else {
+        
+        // LOOK UP THE USER WITH THE SPECIFIED USER
+        dbService.getUser(request.body.email)
+            .then( (user) => {
+                // IF THE USER IS FOUND
+                if (user) {
+                    
+                    // COMPARE THE PASSWORD TO THE HASH
+                    passwordService.comparePassword(request.body.password, user.hash)
+                        .then( (passwordsMatch) => {
+                            
+                            // IF THE PASSWORD MATCHES THE HASH, CREATE AND SEND A TOKEN
+                            if (passwordsMatch) {
+                                response.status(200).send({
+                                    id_token: jwtService.createToken(user)
+                                })
+                            }
+                            else {
+                                response.status(401).json({
+                                    message: "The username/password combination doesn't match any users"
+                                })
+                            }
+                        })
+                        .catch( (err) => {
+                            response.status(500).json({
+                                message: `An error ocurred: ${err}`
+                            })
+                        })
+                }
+                else { 
+                    response.status(401).json({
+                        message: `An account matching that email could not be found`
+                    })
+                }
+            })
+            .catch( (err) => {
+                response.status(500).json({
+                    message: `An error ocurred: ${err}`
+                })
+            })
+    }
+
+
 }
 
 
