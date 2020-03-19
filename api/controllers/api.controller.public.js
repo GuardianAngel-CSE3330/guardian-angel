@@ -1,19 +1,21 @@
+////////////////////////////////////////////
+// THIS CONTROLLER IS FOR PUBLIC API ROUTES
+////////////////////////////////////////////
+
 const express = require('express');                 // WE NEED EXPRESS HERE TOO
 const router = express.Router();                    // CREATE A ROUTER
 const jwt = require('jsonwebtoken');                // FOR AUTHENTICATION
 const _ = require('lodash');                        // FOR OBJECT MANIPULATION
 
 // SERVICES
-const dbService = require('./db.service');              // PROVIDE ACCESS TO DB
-const jwtService = require('./jwt.service')             // PROVIDE SECURITY FUNCTIONALITY
-const passwordService = require('./password.service');  // PROVIDE PASSWORD HASHING FUNCTIONALITY
+const dbService = require('../services/db.service');              // PROVIDE ACCESS TO DB
+const jwtService = require('../services/jwt.service')             // PROVIDE SECURITY FUNCTIONALITY
+const passwordService = require('../services/password.service');  // PROVIDE PASSWORD HASHING FUNCTIONALITY
 
 // DEFINE ROUTES WITH FUNCTION CALLBACKS
-router.get('/', helloworld);
-router.get('/db-test', DBTest);
+router.get('/hello-world', helloworld);
 router.post('/user/create', createUser);
 router.post('/user/login', loginUser);
-
 
 ////////////////////////////////////////////////////
 // DEFINE FUNCTIONS FOR ROUTES
@@ -22,18 +24,6 @@ function helloworld(request, response, next) {
     console.log('request made it to the default edpoint!');
     response.write("Hello, world");
     response.end();
-}
-
-function DBTest(request, response, next) {
-    console.log("request made it to the test db endpoint!");
-    dbService.query('Select * from users')
-    .then(resultString => {
-        response.write(JSON.stringify(resultString));
-        response.end();
-    })
-    .catch (err => {
-        console.log(`An error ocurred: ${err}`);
-    })
 }
 
 // BODY NEEDS: email, firstname, lastname, password, (role)

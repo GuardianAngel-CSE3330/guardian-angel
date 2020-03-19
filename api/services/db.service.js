@@ -1,5 +1,5 @@
 const mysql = require('mysql');
-const dbconfig = require('../config/db_config');
+const dbconfig = require('../../config/db_config');
 
 // CREATE RAW CONNECTION WHICH CAN BE QUERIED. AVOID USING ME! PROBABLY SHOULDN'T BE EXPOSED TO CLIENT CODE
 function connection() {
@@ -32,6 +32,19 @@ function getUser(email /*string*/) {
     })
 }
 
+// GET ALL USERS
+function getAllUsers() {
+    return new Promise( (resolve, reject) => {
+        connection().query(`SELECT * FROM users`, (error, results, fields) => {
+            if (error) {
+                reject (error);
+            }
+
+            resolve(results);
+        })
+    })
+}
+
 // CREATE A SINGLE USER
 function createUser(user /*user object*/) {
     return new Promise((resolve, reject) => {
@@ -48,8 +61,8 @@ function createUser(user /*user object*/) {
 }
 
 module.exports =  {
-    connection,
     query,
     getUser,
-    createUser
+    createUser,
+    getAllUsers
 }

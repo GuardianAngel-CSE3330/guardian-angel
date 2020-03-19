@@ -6,20 +6,18 @@
 
 // IMPORTS
 const express = require('express');                 // FOR BUILDING API
-const mysql = require('mysql');                     // FOR INTERACTING WITH MYSQL
 const cookieParser = require('cookie-parser');      // FOR PARSING COOKIES
 const bodyParser = require('body-parser');          // FOR PARSING POST REQUESTS
-const passport = require('passport');               // FOR AUTH WITH JWT
 const http = require('http');                       // FOR HOSTING SERVER
-const bcrypt = require('bcryptjs');                 // FOR HASHING PASSWORDS
 const cors = require('cors');                       // CORS
 const ip = require('ip');                           // FOR GETTING IP ADDRESS
-const jwt = require('jsonwebtoken');                // FOR AUTHENTICATION
-const _ = require('lodash');                        // FOR WORKING WITH OBJECTS
+const bearerToken = require('express-bearer-token') // FOR PULLING BEARER TOKENS OUT OF REQUESTS
 
-
-const apiRoutes = require('./api/api.controller');  // FOR API ROUTES
-
+// AUTH GUARD
+const authGuard = require('./api/helpers/authguard.helper');
+// CONTROLLERS FOR PUBLIC AND PRIVATE ROUTES
+const publicRoutes = require('./api/controllers/api.controller.public');    // FOR PUBLIC API ROUTES
+const privateRoutes = require('./api/controllers/api.controller.private');  // FOR PRIVATE API ROUTES
 
 // INITIALIZE APP
 const app = express();
@@ -29,11 +27,15 @@ app.use(express.json());
 // ADD MIDDLEWARE LAYERS FOR PARSING REQUESTS, ALL REQUESTS PASS THROUGH THIS BEFORE HITTING ENDPOINTS
 app.use(bodyParser.json());                         // MIDDLEWARE TO HANDLE PARSING REQUEST BODY (POST REQUESTS)
 app.use(bodyParser.urlencoded({extended: false}));  // MIDDLEWARE TO HANDLE URLENCODED REQUEST BODIES
-app.use(cors());
+app.use(cors());                                    // MIDDLEWARE TO HANDLE CROSS-ORIGIN REQUESTS
+app.use(bearerToken());                             // MIDDLEWARE TO HANDLE BEARER TOKENS FOR PRIVATE ROUTES
 
 // USE THE API (REFER TO SPECIFIED FILE FOR CONTROLLER)
-app.use('/api', apiRoutes);
+app.use('/api/public', publicRoutes);
 
+// USE PRIVATE ROUTES, BEHIND EXPRESS JWT MIDDLEWARE
+app.use(authGuard);
+app.use('/api/private', privateRoutes);
 
 // CREATE THE HTTP SERVER
 http.createServer(app)  // USE THE EXPRESS APP
