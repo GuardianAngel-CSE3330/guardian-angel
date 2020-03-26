@@ -39,7 +39,7 @@ app.use('/api/private', privateRoutes);
 
 // CREATE THE HTTP SERVER
 http.createServer(app)  // USE THE EXPRESS APP
-    .listen(8080, () => {
-        console.log(`API is listening on ${ip.address()}:8080`);
+    .listen(8000, () => {
+        console.log(`API is listening on ${ip.address()}:8000`);
     })
 
