@@ -27,7 +27,12 @@ function getUser(email /*string*/) {
                 reject (error);
             }
 
-            resolve(results[0]);
+            if (results) {
+                resolve(results[0]);
+            }
+            else {
+                resolve(false);
+            }
         })
     })
 }
