@@ -46,7 +46,11 @@ function createUser(request, response, next) {
             message: "Must specify user last name!"
         })
     }
-
+    if(!request.body.role) {
+        response.status(400).json({
+            message: "Must specify role!"
+        })
+    }
     // CHECK TO SEE IF THE USER EXISTS
     dbService.getUser(request.body.email)
         .then(user => {
