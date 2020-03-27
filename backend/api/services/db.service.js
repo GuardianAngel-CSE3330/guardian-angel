@@ -68,6 +68,23 @@ function createUser(user /*user object*/) {
     })
 }
 
+// GET USER BY ID
+function getUserById(id) {
+    return new Promise( (resolve, reject) => {
+        connection().query(`SELECT * FROM users WHERE users.id = ${id} LIMIT 1`, (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else if (results) {
+                resolve(results[0]);
+            }
+            else {
+                reject(false);
+            }
+        })
+    })
+}
+
 // GET ALL SIGHTINGS
 function getAllSightings(){
     return new Promise((resolve, reject) => {
@@ -121,6 +138,7 @@ module.exports =  {
     getUser,
     createUser,
     getAllUsers,
+    getUserById,
     getAllSightings,
     createSighting,
     getSightingsByDate

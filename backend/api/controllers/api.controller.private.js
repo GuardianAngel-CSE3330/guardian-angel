@@ -14,6 +14,7 @@ const passwordService = require('../services/password.service');  // PROVIDE PAS
 
 // DEFINE ROUTES
 router.get('/users/all', getAllUsers);
+router.get('/users/:id', getOneUser)
 router.post('/sightings/create', createSighting);
 router.get('/sightings/:month/:year', getSightingsByMonth);
 router.get('/sightings/all', getAllSightings);
@@ -22,6 +23,7 @@ router.get('/sightings/all', getAllSightings);
 // DEFINE FUNCTIONS FOR ROUTES
 ////////////////////////////////////////////////////
 function getAllUsers(request, response, next) {
+    console.log(`Received request to get all users`);
     dbService.getAllUsers()
         .then( (results) => {
             response.send(JSON.stringify(results));
@@ -33,7 +35,29 @@ function getAllUsers(request, response, next) {
         })
 }
 
+function getOneUser(request, response, next) {
+    console.log('received request to get one user');
+    const id = request.params.id;
+    dbService.getUserById(id)
+        .then( (result) => {
+            if (result) {
+                response.send(JSON.stringify(result));
+            }
+            else {
+                response.status(404).json({
+                    message: `Could not find a user with the specified ID`
+                })
+            }
+        })
+        .catch( (err) => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+}
+
 function createSighting(request, response, next) {
+    console.log(`Received request to create a sighting`);
     let sighting = {
         reporterid : request.body.reporterid,
         reportername : request.body.reportername,
@@ -65,6 +89,7 @@ function createSighting(request, response, next) {
 // MONTH: STRING FROM 0-11 REPRESENTING MONTH
 // YEAR: 4-DIGIT YEAR
 function getSightingsByMonth(request, response, next) {
+    console.log(`received request to get sighting by month`);
     let month = request.params.month;
     let year = request.params.year;
 
@@ -80,6 +105,8 @@ function getSightingsByMonth(request, response, next) {
     }
 
 function getAllSightings(request, response, next) {
+
+    console.log(`received request to get all sightings`);
     dbService.getAllSightings()
         .then( (results) => {
             response.send(JSON.stringify(results));
