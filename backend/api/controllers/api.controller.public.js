@@ -14,8 +14,8 @@ const passwordService = require('../services/password.service');  // PROVIDE PAS
 
 // DEFINE ROUTES WITH FUNCTION CALLBACKS
 router.get('/hello-world', helloworld);
-router.post('/user/create', createUser);
-router.post('/user/login', loginUser);
+router.post('/users/create', createUser);
+router.post('/users/login', loginUser);
 
 ////////////////////////////////////////////////////
 // DEFINE FUNCTIONS FOR ROUTES
