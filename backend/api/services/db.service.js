@@ -13,8 +13,9 @@ function query(queryString /*string*/) {
             if (error) {
                 reject (error);
             }
-
-            resolve (results);
+            else {
+                resolve(results);
+            }
         })
     })
 }
@@ -44,8 +45,9 @@ function getAllUsers() {
             if (error) {
                 reject (error);
             }
-
-            resolve(results);
+            else {
+                resolve(results);
+            }
         })
     })
 }
@@ -59,15 +61,67 @@ function createUser(user /*user object*/) {
             if (error) {
                 reject (error);
             }
-
-            resolve(results);
+            else {
+                resolve(results);
+            }
         })
     })
 }
+
+// GET ALL SIGHTINGS
+function getAllSightings(){
+    return new Promise((resolve, reject) => {
+        connection().query(`SELECT * FROM sightings`, (error, results, fields) => {
+            if (error) {
+                reject (error);
+            }
+            else {
+                resolve(results);
+            }
+
+        })
+    })
+}
+
+// CREATE A SIGHTING
+function createSighting(sighting) {
+    return new Promise((resolve, reject) => {
+        connection().query(`INSERT INTO sightings (reporterid, reportername, reporteremail, ghostid, ghostname, month, year, day, location, title, description, imageurl)
+        VALUES (${sighting.reporterid}, '${sighting.reportername}', '${sighting.reporteremail}', ${sighting.ghostid}, '${sighting.ghostname}', ${sighting.month}, ${sighting.year}, ${sighting.day},  '${sighting.location}', '${sighting.title}', '${sighting.description}', '${sighting.imageurl}')`,
+        (error, results, fields) => {
+            if (error) {
+                reject (error);
+            }
+            else {
+                resolve(results);
+            }
+            
+        })
+    })
+}
+
+// GET SIGHTING BY DATE
+function getSightingsByDate(month, year) {
+    return new Promise( (resolve, reject) => {
+        connection().query(`SELECT * FROM sightings where sightings.month = ${month} AND sightings.year = ${year}`,
+        (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+            resolve(results);
+            }
+        })
+    })
+}
+
 
 module.exports =  {
     query,
     getUser,
     createUser,
-    getAllUsers
+    getAllUsers,
+    getAllSightings,
+    createSighting,
+    getSightingsByDate
 }
