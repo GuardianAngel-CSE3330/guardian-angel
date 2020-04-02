@@ -26,9 +26,7 @@ header:after{
     clear:both;
 }
 
-header .last{
-    margin: 0;
-}
+
 /*
 Navigation Stylings
 */
@@ -85,8 +83,14 @@ SafeGuide Stylings
     text-align: center;
 }
 
+
 .SearchBar {
-    color: black
+    color: black;
+}
+
+input[type="radio"]{
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 /*
@@ -114,6 +118,49 @@ Login Stylings
     background-color: lightblue;
 }
 
+
+/*
+Profile Form Styling
+*/
+
+.profileFormWrap{
+    text-align: center;
+    display: inline-block;
+}
+
+.profileContainer{
+    border-color: black;
+    border: 3px solid black;
+    padding: 10px;
+    margin: 10px;
+}
+
+.profileContainer .btn:hover{
+    opacity: 30;
+    background-color: lightblue;
+}
+
+/*
+Ghost Sighting Style
+*/
+
+.reportFormWrap{
+    text-align: center;
+}
+
+.container{
+    display: inline-block;
+    border-color: black;
+    border: 3px solid black;
+    padding: 10px;
+    margin: 10px;
+    position: relative;
+}
+
+.container .btn:hover{
+    opacity: 30;
+    background-color: lightblue;
+}
 
 /*
 Footer Stylings
