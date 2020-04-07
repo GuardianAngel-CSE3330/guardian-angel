@@ -10,15 +10,15 @@ class SafeGuide extends Component {
                     <hr></hr>
                     <input type="radio" id="locSearch" 
                     name="searchType" value="locSearch"></input>
-                        <label for="locSearch">By Location:  </label>
+                        <label htmlFor="locSearch">By Location:  </label>
 
                     <input type="radio" id="ghoSearch" 
                     name="searchType" value="ghoSearch"></input>
-                        <label for="locSearch">By Ghost:  </label>
+                        <label htmlFor="locSearch">By Ghost:  </label>
 
                     <input type="radio" id="sigSearch" 
                     name="searchType" value="sigSearch"></input>
-                        <label for="locSearch">By Sighting:  </label>
+                        <label htmlFor="locSearch">By Sighting:  </label>
                     </section>
                     <section className = "safeGuide">
                         <p>

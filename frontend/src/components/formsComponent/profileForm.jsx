@@ -56,7 +56,7 @@ class ProfileForm extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label for="userType">User Type</label>
+                    <label htmlFor="userType">User Type</label>
                     <br></br>
                     <select id="userType" name="userType" required>
                         <option value="author">Author</option>
@@ -69,7 +69,7 @@ class ProfileForm extends React.Component {
                 </div>
 
                 <div className="form-group">
-                    <label for="sign">Astrology Sign</label>
+                    <label htmlFor="sign">Astrology Sign</label>
                     <br></br>
                     <select id="sign" name="sign" required>
                         <option value="aries">Aries</option>

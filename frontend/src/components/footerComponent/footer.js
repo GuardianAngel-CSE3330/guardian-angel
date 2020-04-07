@@ -4,7 +4,7 @@ class Footer extends Component {
     render(){
         return (
         <footer>
-            Gaurdian Angel
+            Guardian Angel
         </footer>
     );
     }

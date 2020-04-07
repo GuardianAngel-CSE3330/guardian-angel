@@ -1,5 +1,31 @@
-import React, {Component} from 'react';
-class LoginForm extends Component{
+import React from 'react';
+import axios from 'axios';
+class LoginForm extends React.Component{
+    state = {
+        email: '',
+        password: ''
+
+    }
+
+
+    loginWithCredentials() {
+        axios.post(`172.18.0.2:8000/api/public/users/login`, 
+        this.state)
+        .then(res => {
+            debugger;
+            console.log(res);
+            }
+        )
+    }
+
+
+    handleChangeUser(event) {
+        this.setState({email: event.target.value});
+    }
+    handleChangePW(event) {
+        this.setState({password: event.target.value});
+    }
+
     render(){
         return(
             <div className = "column">
@@ -8,14 +34,16 @@ class LoginForm extends Component{
                     <div className = "form-group">
                         <label htmlFor = "email">Email Address:</label>
                         <input type = "email" className = "form-control"
-                            name = "email" />
+                            name = "email" 
+                            onChange={e => this.handleChangeUser(e)}/>
                     </div>
                     <div className = "form-group">
                         <label htmlFor = "password">Password:</label>
-                        <input type = "passwprd" className = "form-control"
-                            name = "password" />
+                        <input type = "password" className = "form-control"
+                            name = "password" 
+                            onChange={e => this.handleChangePW(e)}/>
                     </div>
-                    <button type = "submit" className = "btn btn-primary">
+                    <button type = "submit" className = "btn btn-primary" onClick={() => this.loginWithCredentials()}>
                         Login
                     </button>
                     <button type = "submit" className = "btn btn-secondary">
