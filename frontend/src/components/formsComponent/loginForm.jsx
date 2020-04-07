@@ -4,18 +4,16 @@ class LoginForm extends React.Component{
     state = {
         email: '',
         password: ''
-
     }
 
-
     loginWithCredentials() {
-        axios.post(`172.18.0.2:8000/api/public/users/login`, 
+        axios.post(`http://localhost:8000/api/public/users/login`, 
         this.state)
         .then(res => {
-            debugger;
             console.log(res);
             }
         )
+        //Once you get the bearer token --> store it in local storage
     }
 
 
@@ -43,13 +41,13 @@ class LoginForm extends React.Component{
                             name = "password" 
                             onChange={e => this.handleChangePW(e)}/>
                     </div>
-                    <button type = "submit" className = "btn btn-primary" onClick={() => this.loginWithCredentials()}>
-                        Login
-                    </button>
-                    <button type = "submit" className = "btn btn-secondary">
-                        Register
-                    </button>
                 </form>
+                <button type="button" className = "btn btn-primary col-3" onClick={e => this.loginWithCredentials()}>
+                    Login
+                </button>
+                <button type="button" className = "btn btn-secondary col-3">
+                    Register
+                </button>
             </div>
         )
     }
