@@ -4,8 +4,8 @@ import axios from 'axios';
 class SafeGuide extends Component {
     render(){
         return (
-            <div className = "column">
-                <section className = "SearchBar">
+            <div>
+                <div className = "block-example border border-dark m-2">
                     <input type="text" placeholder="Search.."></input>
                     <hr></hr>
                     <input type="radio" id="locSearch" 
@@ -19,8 +19,10 @@ class SafeGuide extends Component {
                     <input type="radio" id="sigSearch" 
                     name="searchType" value="sigSearch"></input>
                         <label htmlFor="locSearch">By Sighting:  </label>
-                    </section>
-                    <section className = "safeGuide">
+                    </div>
+
+
+                    <div className = "block-example border border-dark m-2">
                         <p>
                             SAFEGUIDE TO DO
 
@@ -52,8 +54,8 @@ class SafeGuide extends Component {
                             orem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including ver
                             sions of Lorem Ipsum.
                         </p>
-                    </section>
-            </div>
+                    </div>
+                </div>
     );
     }
 }

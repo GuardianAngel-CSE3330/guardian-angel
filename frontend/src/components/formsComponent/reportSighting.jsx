@@ -1,9 +1,63 @@
 import React from 'react';
+import axios from 'axios';
 class ReportSighting extends React.Component {
+    state = {
+        reporterid: '', //Do I handle ID or does the back end
+        reportername: '',
+        reporteremail: '',
+        ghostid: '',
+        ghostname: '',//Who handles IDs
+        month: '',
+        year: '',
+        day: '',
+        location: '',
+        title: '',
+        imageurl: ''
+    }
+
+    createSighting(){
+        axios.post('http://localhost:8000/api/private/sightings/create',
+        this.state)
+        .then (res => {
+            console.log(res);
+            }
+        )
+    }
+    //ReporterID
+    /*
+    handleChangeFirstName(event){
+        this.setState({firstname: event.target.value});
+    } 
+    handleChangeLastName(event){
+        this.setState({lastname: event.target.value});
+    }
+    */
+    handleChangeEmail(event){
+        this.setState({reporteremail: event.target.value});
+    }
+    //GhostID
+    handleChangeGhostName(event){
+        this.setState({ghostname: event.target.value});
+    }
+    handleChangeDate(event){
+        this.setState({month: event.target.value.getMonth()});
+        this.setState({year: event.target.value.getFullYear()});
+        this.setState({day: event.target.value.getDate()});
+    }
+    handleChangeLocation(event){
+        this.setState({ghostname: event.target.value});
+    }
+    handleChangeGhostTitle(event){
+        this.setState({title: event.target.value});
+    }
+    handleChangeGhostImage(event){
+        this.setState({imageurl: event.target.value});
+    }
+
     render() {
         return <>
         <div className ="text-center">
-            <div className = "block-example border border-dark">
+            <div className = "block-example border border-dark m-2">
                     <form className="justify-content-center align-items-center">
                         <h1 className = "formTitle">Report A Ghost Sighting</h1>
 
@@ -13,6 +67,7 @@ class ReportSighting extends React.Component {
                                 id="sightingTitle"
                                 name="sightingTitle"
                                 className="form-control"
+                                onChange = {e => this.handleChangeGhostTitle(e)}
                                 required/>
                         </div>
 
@@ -22,6 +77,7 @@ class ReportSighting extends React.Component {
                                 id="location"
                                 name="location"
                                 className="form-control"
+                                onChange = {e => this.handleChangeLocation(e)}
                                 required/>
                         </div>
 
@@ -31,15 +87,7 @@ class ReportSighting extends React.Component {
                                 id="dateSighted"
                                 name="dateSighted"
                                 className="form-control"
-                                required/>
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="timeSighted">Time of Sighting*</label>
-                            <input type="time"
-                                id="timeSighted"
-                                name="timeSighted"
-                                className="form-control"
+                                onChange = {e => this.handleChangeDate(e)}
                                 required/>
                         </div>
 
@@ -48,7 +96,8 @@ class ReportSighting extends React.Component {
                             <input type = "text"
                                 id="sightingDesc"
                                 name="sightingDesc"
-                                className="form-control"/>
+                                className="form-control"
+                                />
                         </div>
 
                         <div className="form-group">
@@ -64,10 +113,13 @@ class ReportSighting extends React.Component {
                             <input type = "file"
                                 id="ghostPhoto"
                                 name="ghostPhoto"
-                                className="form-control-photo" />
+                                className="form-control-photo" 
+                                onChange = {e => this.handleChangeGhostImage(e)}/>
                         </div>
 
-                        <button type = "submit" className = "btn btn-primary">
+                        <button type = "submit" 
+                        className = "btn btn-primary"
+                        onClick={e => this.createSighting()}>
                             Submit Sighting
                         </button>
                     </form>

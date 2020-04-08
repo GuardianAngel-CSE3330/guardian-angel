@@ -29,7 +29,8 @@ class LoginForm extends React.Component{
 
     render(){
         return(
-                <form className = "block-example border border-dark">
+            <div className = "block-example border border-dark text-center">
+                <form>
                     <h2 className ="signUp">Login</h2>
                     <div className = "form-group">
                         <label htmlFor = "email">Email Address:</label>
@@ -43,12 +44,12 @@ class LoginForm extends React.Component{
                             name = "password" 
                             onChange={e => this.handleChangePW(e)}/>
                     </div> 
-
-                    <button type="button" className = "btn btn-primary col-3" onClick={e => this.loginWithCredentials()}>
-                        Login
-                    </button>
-                    <Link to="/profile"><button className = "btn btn-secondary col-3">Register</button></Link>
                 </form>
+                <button type="button" className = "btn btn-primary" onClick={e => this.loginWithCredentials()}>
+                Login
+                </button>
+                <Link to="/register"><button className = "btn btn-secondary">Register</button></Link>
+            </div>
         )
     }
 }
