@@ -1,13 +1,13 @@
 import React, { Component } from 'react';
 
-class Footer extends Component {
-    render(){
-        return (
-        <footer>
-            Guardian Angel
+function Footer(){
+    return (
+        <footer id="sticky-footer" className=" bg-dark text-white-50">
+            <div class="container text-center">
+            <small>Guardian Angel</small>
+            </div>
         </footer>
     );
-    }
 }
 
 export default Footer;
