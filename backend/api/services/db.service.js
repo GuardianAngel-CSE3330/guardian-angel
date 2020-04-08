@@ -132,6 +132,21 @@ function getSightingsByDate(month, year) {
     })
 }
 
+// DELETE A SIGHTING
+function deleteSightingByID(sightingID) {
+    return new Promise ( (resolve, reject) => {
+        connection().query(`DELETE FROM sightings WHERE sightings.sightingid = ${sightingID}`, 
+        (error, results, fields) => {
+            if (error) {
+                reject (error);
+            }
+            else {
+                resolve(results);
+            }
+        })
+    })
+}
+
 
 module.exports =  {
     query,
@@ -141,5 +156,6 @@ module.exports =  {
     getUserById,
     getAllSightings,
     createSighting,
-    getSightingsByDate
+    getSightingsByDate,
+    deleteSightingByID
 }

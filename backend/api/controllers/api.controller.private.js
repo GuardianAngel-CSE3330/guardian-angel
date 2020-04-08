@@ -104,6 +104,8 @@ function getSightingsByMonth(request, response, next) {
         })
     }
 
+// GET ALL SIGHTINGS
+// NO PARAMETERS
 function getAllSightings(request, response, next) {
 
     console.log(`received request to get all sightings`);
@@ -112,6 +114,25 @@ function getAllSightings(request, response, next) {
             response.send(JSON.stringify(results));
         })
         .catch ( (err) => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+}
+
+// DELETE A SIGHTING, ONE ROUTE PARAMETER: A SIGHTING ID
+function deleteSightingByID(request, response, next) {
+
+    let id = request.params.id;
+    let idNumber = parseInt(id);
+    console.log(`received request to delete a sighting with id ${idNumber}`);
+    dbService.deleteSightingByID(id)
+        .then( (results) => {
+            response.status(200).json({
+                message: `OK`
+            })
+        })
+        .catch( (err) => {
             response.status(500).json({
                 message: `Error: ${err}`
             })
