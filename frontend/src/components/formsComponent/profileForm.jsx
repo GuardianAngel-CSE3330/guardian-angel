@@ -11,12 +11,19 @@ class ProfileForm extends React.Component {
     }
 
     createProfile(){
-        axios.post('http://localhost:8000/api/public/users/create',
+        axios.put('http://localhost:8000/api/public/users/create',
         this.state)
         .then (res => {
             console.log(res);
             }
-        )
+        );
+        this.setState({
+            email: '',
+            password: '',
+            firstname: '',
+            lastname: '',
+            role: ''
+        });
     }
 
     handleChangeFirstName(event){
@@ -101,12 +108,13 @@ class ProfileForm extends React.Component {
                         </select>
                     </div>
 
-                    <button type = "submit" 
+                    
+                </form>
+                <button type = "submit" 
                     className = "btn btn-primary"
                     onClick={e => this.createProfile()}>
                         Create Profile
-                    </button>
-                </form>
+                </button>
             </div>
         </>;
     }

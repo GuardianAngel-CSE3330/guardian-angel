@@ -30,6 +30,8 @@ class App extends Component {
               <Route path="/reportsighting" component={ReportSighting} />
 
               <Route path="/register" component={ProfileForm} /> 
+
+              <Route path ="/safeguide" component = {SafeGuide}/>
                
             </Switch>
             

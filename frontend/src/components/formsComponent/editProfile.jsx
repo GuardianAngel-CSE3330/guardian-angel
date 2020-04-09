@@ -10,7 +10,7 @@ class EditProfileForm extends React.Component {
 	    role: ''
     }
 
-    /*
+    /*Need to update when the new endpoint is created
     createProfile(){
         axios.post('http://localhost:8000/api/public/users/create',
         this.state)
@@ -88,6 +88,7 @@ class EditProfileForm extends React.Component {
                             required/>
                     </div>
 
+                    {/*
                     <div className="form-group">
                         <label htmlFor="phoneNumber">Phone Number</label>
                         <input type="text"
@@ -95,6 +96,7 @@ class EditProfileForm extends React.Component {
                             name="phoneNumber"
                             className="form-control"/>
                     </div>
+                    */}
 
                     <div className="form-group">
                         <label htmlFor="userType">User Type</label>
@@ -112,7 +114,7 @@ class EditProfileForm extends React.Component {
                         </select>
                     </div>
 
-                    
+                    {/*
                     <div className="form-group">
                         <label htmlFor="sign">Astrology Sign</label>
                         <br></br>
@@ -130,20 +132,22 @@ class EditProfileForm extends React.Component {
                             <option value="pisces">Pisces</option>
                         </select>
                     </div>
+                    */}
 
                     
                     <div className="form-group">
                         <label htmlFor="profilePhoto">Profile Photo: </label>
-                        <input type = "file"
+                        <input type = "text"
                             id="profilePhoto"
                             name="profilePhoto"
                             className="form-control-photo" />
                     </div>
 
-                    <button type = "submit" className = "btn btn-primary">
-                        Save Profile
-                    </button>
+                    
                 </form>
+                <button type = "submit" className = "btn btn-primary">
+                        Save Profile
+                </button>
             </div>
            
         </div>
