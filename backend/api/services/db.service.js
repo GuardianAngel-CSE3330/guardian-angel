@@ -1,5 +1,6 @@
 const mysql = require('mysql');
 const dbconfig = require('../../config/db_config');
+const utilService = require('./utils.service');
 
 // CREATE RAW CONNECTION WHICH CAN BE QUERIED. AVOID USING ME! PROBABLY SHOULDN'T BE EXPOSED TO CLIENT CODE
 function connection() {
@@ -132,6 +133,58 @@ function getSightingsByDate(month, year) {
     })
 }
 
+// DELETE A SIGHTING
+function deleteSightingByID(sightingID) {
+    return new Promise ( (resolve, reject) => {
+        connection().query(`DELETE FROM sightings WHERE sightings.sightingid = ${sightingID}`, 
+        (error, results, fields) => {
+            if (error) {
+                reject (error);
+            }
+            else {
+                resolve(results);
+            }
+        })
+    })
+}
+
+// UPDATE A SIGHTING
+function updateSighting(diff, id) {
+    
+    return new Promise( (resolve, reject) => {
+
+        // ITERATE ACROSS KEY/VALUE PAIRS IN THE DIFF TO CREATE THE STATEMENT
+        let query = `UPDATE sightings SET `;
+        for (let key in diff) {
+            
+            // IF THE VALUE IS NUMERIC, DON'T USE QUOTES, OTHERWISE, DO USE THEM
+            if (utilService.isNumeric(diff[key])) {
+                let v = parseInt(diff[key]);
+                query += `${key} = ${v}, `;
+            }
+            else {
+                query += `${key} = '${diff[key]}', `;
+            }
+        }
+
+        // REMOVE THE TRAINING COMMA AND SPACE
+        query = query.replace(/,\s*$/, "");
+
+        // ADD THE WHERE CLAUSE
+        query += ` WHERE sightingid = ${id}`;
+
+        // MAKE THE QUERY
+        connection().query(query, (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve(results);
+            }
+        });
+    })
+}
+
 
 module.exports =  {
     query,
@@ -141,5 +194,7 @@ module.exports =  {
     getUserById,
     getAllSightings,
     createSighting,
-    getSightingsByDate
+    getSightingsByDate,
+    deleteSightingByID,
+    updateSighting
 }
