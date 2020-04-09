@@ -18,6 +18,8 @@ router.get('/users/:id', getOneUser)
 router.post('/sightings/create', createSighting);
 router.get('/sightings/:month/:year', getSightingsByMonth);
 router.get('/sightings/all', getAllSightings);
+router.delete('/sightings/:id', deleteSightingByID);
+router.patch('/sightings/:id', updateSighting);
 
 ////////////////////////////////////////////////////
 // DEFINE FUNCTIONS FOR ROUTES
@@ -137,5 +139,25 @@ function deleteSightingByID(request, response, next) {
                 message: `Error: ${err}`
             })
         })
+}
+
+// UPDATE A SIGHTING, ROUTE PARAM OF SIGHTING ID, BODY  VALUE SHOULD BE AN OBJECT DIFF
+function updateSighting(request, response, next) {
+    let ID  = parseInt(request.params.id);
+    let diff = request.body;
+    
+    console.log(`Received request to update a sighting with id ${ID}, diff of ${JSON.stringify(diff)}`);
+    dbService.updateSighting(diff, ID)
+        .then(results => {
+            response.status(200).json({
+                message: 'OK'
+            })
+        })
+        .catch( err => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+    
 }
 module.exports = router;
