@@ -15,7 +15,7 @@ const passwordService = require('../services/password.service');  // PROVIDE PAS
 // DEFINE ROUTES
 router.get('/users/all', getAllUsers);
 router.get('/users/:id', getOneUser)
-router.post('/sightings/create', createSighting);
+router.put('/sightings/create', createSighting);
 router.get('/sightings/:month/:year', getSightingsByMonth);
 router.get('/sightings/all', getAllSightings);
 router.delete('/sightings/:id', deleteSightingByID);
