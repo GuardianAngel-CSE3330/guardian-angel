@@ -1,5 +1,8 @@
 import React from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import SafeGuide from '../pages/safeGuide.jsx';
+
 class LoginForm extends React.Component{
     state = {
         email: '',
@@ -28,8 +31,8 @@ class LoginForm extends React.Component{
 
     render(){
         return(
-            <div className = "column">
-                <form className = "loginForm">
+            <div className = "block-example border border-dark text-center">
+                <form>
                     <h2 className ="signUp">Login</h2>
                     <div className = "form-group">
                         <label htmlFor = "email">Email Address:</label>
@@ -44,14 +47,10 @@ class LoginForm extends React.Component{
                             name = "password" 
                             value={this.state.password}
                             onChange={e => this.handleChangePW(e)}/>
-                    </div>
+                    </div> 
                 </form>
-                <button type="button" className = "btn btn-primary col-3" onClick={e => this.loginWithCredentials()}>
-                    Login
-                </button>
-                <button type="button" className = "btn btn-secondary col-3">
-                    Register
-                </button>
+                <Link to ="/safeguide"><button type="button" className = "btn btn-primary" onClick={e => this.loginWithCredentials()}>Login</button></Link>
+                <Link to="/register"><button className = "btn btn-secondary">Register</button></Link>
             </div>
         )
     }

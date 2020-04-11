@@ -1,7 +1,7 @@
 import React from 'react';
 import profile from '../images/profile.png';
 import axios from 'axios';
-class ProfileForm extends React.Component {
+class EditProfileForm extends React.Component {
     state = {
         email: '',
 	    password: '',
@@ -10,21 +10,16 @@ class ProfileForm extends React.Component {
 	    role: ''
     }
 
+    /*Need to update when the new endpoint is created
     createProfile(){
-        axios.put('http://localhost:8000/api/public/users/create',
+        axios.post('http://localhost:8000/api/public/users/create',
         this.state)
         .then (res => {
             console.log(res);
             }
-        );
-        this.setState({
-            email: '',
-            password: '',
-            firstname: '',
-            lastname: '',
-            role: ''
-        });
+        )
     }
+    */
 
     handleChangeFirstName(event){
         this.setState({firstname: event.target.value});
@@ -44,8 +39,9 @@ class ProfileForm extends React.Component {
 
     render() {
         return <>
-            <div className = "block-example border border-dark text-center m-2">
-                <form className="justify-content-center align-items-center ">
+        <div className ="text-center">
+            <div className = "block-example border border-dark m-2">
+                <form className="justify-content-center align-items-center">
                     <h1 className = "formTitle">User Profile</h1>
 
                     <div className = "defaultImage">
@@ -92,6 +88,16 @@ class ProfileForm extends React.Component {
                             required/>
                     </div>
 
+                    {/*
+                    <div className="form-group">
+                        <label htmlFor="phoneNumber">Phone Number</label>
+                        <input type="text"
+                            id="phoneNumber"
+                            name="phoneNumber"
+                            className="form-control"/>
+                    </div>
+                    */}
+
                     <div className="form-group">
                         <label htmlFor="userType">User Type</label>
                         <br></br>
@@ -108,16 +114,45 @@ class ProfileForm extends React.Component {
                         </select>
                     </div>
 
+                    {/*
+                    <div className="form-group">
+                        <label htmlFor="sign">Astrology Sign</label>
+                        <br></br>
+                        <select id="sign" name="sign" required>
+                            <option value="aries">Aries</option>
+                            <option value="taurus">Taurus</option>
+                            <option value="gemini">Gemini</option>
+                            <option value="cancer">Cancer</option>
+                            <option value="leo">Leo</option>
+                            <option value="libra">Libra</option>
+                            <option value="scorpio">Scorpio</option>
+                            <option value="dagittrius">Sagittarius</option>
+                            <option value="capricorn">Capricorn</option>
+                            <option value="aquarius">Aquarius</option>
+                            <option value="pisces">Pisces</option>
+                        </select>
+                    </div>
+                    */}
+
+                    
+                    <div className="form-group">
+                        <label htmlFor="profilePhoto">Profile Photo: </label>
+                        <input type = "text"
+                            id="profilePhoto"
+                            name="profilePhoto"
+                            className="form-control-photo" />
+                    </div>
+
                     
                 </form>
-                <button type = "submit" 
-                    className = "btn btn-primary"
-                    onClick={e => this.createProfile()}>
-                        Create Profile
+                <button type = "submit" className = "btn btn-primary">
+                        Save Profile
                 </button>
             </div>
+           
+        </div>
         </>;
     }
 }
 
-export default ProfileForm;
+export default EditProfileForm;
