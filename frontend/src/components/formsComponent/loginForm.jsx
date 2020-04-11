@@ -10,9 +10,11 @@ class LoginForm extends React.Component{
         axios.post(`http://localhost:8000/api/public/users/login`, 
         this.state)
         .then(res => {
-            console.log(res);
+            localStorage.setItem("bearer_token", JSON.stringify(res));
             }
+            //https://www.tutorialrepublic.com/faq/how-to-store-javascript-objects-in-html5-localstorage.php
         )
+        this.setState({email: '', password: ''});
         //Once you get the bearer token --> store it in local storage
     }
 
@@ -33,12 +35,14 @@ class LoginForm extends React.Component{
                         <label htmlFor = "email">Email Address:</label>
                         <input type = "email" className = "form-control"
                             name = "email" 
+                            value={this.state.email}
                             onChange={e => this.handleChangeUser(e)}/>
                     </div>
                     <div className = "form-group">
                         <label htmlFor = "password">Password:</label>
                         <input type = "password" className = "form-control"
                             name = "password" 
+                            value={this.state.password}
                             onChange={e => this.handleChangePW(e)}/>
                     </div>
                 </form>
