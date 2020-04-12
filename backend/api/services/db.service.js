@@ -220,6 +220,42 @@ function updateSighting(diff, id) {
     })
 }
 
+// CREATE A GHOST
+function createGhost(name, bio) {
+    const q = `INSERT INTO ghosts (name, biography)
+                VALUES ('${name}', '${bio}')`;
+    return new Promise( (resolve, reject) => {
+        connection().query(q, (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve(results);
+            }
+        })
+    })
+}
+
+// GET A GHOST BY NAME
+function getGhostByName(name) {
+    const q = `SELECT * FROM ghosts
+                WHERE name LIKE '${name}' LIMIT 1`;
+    return new Promise( (resolve, reject) => {
+        connection().query(q, (error, results, fields) => {
+            if (error) {
+                reject (error);
+            }
+            if (results) {
+                resolve(results[0]);
+            }
+            else {
+                resolve(false);
+            }
+        })
+    })
+    
+}
+
 
 module.exports =  {
     query,
@@ -231,5 +267,7 @@ module.exports =  {
     createSighting,
     getSightingsByDate,
     deleteSightingByID,
-    updateSighting
+    updateSighting,
+    createGhost,
+    getGhostByName
 }

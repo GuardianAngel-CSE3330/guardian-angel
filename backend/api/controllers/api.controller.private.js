@@ -14,12 +14,16 @@ const passwordService = require('../services/password.service');  // PROVIDE PAS
 
 // DEFINE ROUTES
 router.get('/users/all', getAllUsers);
-router.get('/users/:id', getOneUser)
+router.get('/users/:id', getOneUser);
+
 router.put('/sightings/create', createSighting);
 router.get('/sightings/:month/:year', getSightingsByMonth);
 router.get('/sightings/all', getAllSightings);
 router.delete('/sightings/:id', deleteSightingByID);
 router.patch('/sightings/:id', updateSighting);
+
+router.put('/ghosts/create', createGhost);
+router.get('/ghosts/name/:name', getGhostByName)
 
 ////////////////////////////////////////////////////
 // DEFINE FUNCTIONS FOR ROUTES
@@ -157,5 +161,76 @@ function updateSighting(request, response, next) {
             })
         })
     
+}
+
+// CREATE A GHOST, BODY PARAMS OF NAME AND BIOGRAPHY
+function createGhost(request, response, next) {
+    if (!request.body.name) {
+        response.status(400).json({
+            message: `Must specify a ghost name in your request!`
+        })
+    }
+
+    if (!request.body.biography) {
+        response.status(400).json({
+            message: `Must specify a ghost biography!`
+        })
+    }
+    let name = request.body.name;
+    let bio = request.body.biography;
+
+    console.log(`received request to create a ghost with name ${name}`);
+
+    // CHECK TO SEE IF THE GHOST ALREADY EXISTS
+    dbService.getGhostByName(name)
+        .then( ghost => {
+
+            // IF THE GHOST ALREADY EXISTS
+            if (ghost) {
+                response.status(400).json({
+                    message: 'A ghost with that name already exists!'
+                })
+            }
+
+            // IF IT DOES EXIST CREATE IT
+            else {
+                dbService.createGhost(name, bio)
+                    .then( results => {
+                        response.status(200).json({
+                            message: 'OK'
+                        })
+                    })
+                    .catch( err => {
+                        response.status(500).json({
+                            message: `Error: ${err}`
+                        })
+                    })
+            }
+        })
+    
+}
+
+function getGhostByName(request, response, next) {
+
+    
+    const name = request.params.name;
+    console.log(`Received request to get ghost by name with name ${name}`);
+
+    dbService.getGhostByName(name)
+        .then( ghost => {
+            if (ghost) {
+                response.send(JSON.stringify(ghost));
+            }
+            else {
+                response.status(400).json({
+                    message: 'ghost not found'
+                })
+            }
+        })
+        .catch (err => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
 }
 module.exports = router;
