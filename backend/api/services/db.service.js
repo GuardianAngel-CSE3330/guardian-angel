@@ -128,7 +128,7 @@ function getAllSightings(){
                     LEFT JOIN ghosts
                         ON sightings.ghostid = ghosts.ghostid
                     LEFT JOIN users
-                        ON sightings.reporterid = users.id`
+                        ON sightings.reporterid = users.id`;
         connection().query(q, (error, results, fields) => {
             if (error) {
                 reject (error);
@@ -144,8 +144,20 @@ function getAllSightings(){
 // GET SIGHTING BY DATE
 function getSightingsByDate(month, year) {
     return new Promise( (resolve, reject) => {
-        connection().query(`SELECT * FROM sightings where sightings.month = ${month} AND sightings.year = ${year}`,
-        (error, results, fields) => {
+        const q = `SELECT sightings.*, 
+                        ghosts.name as ghostname, 
+                        ghosts.biography as ghostbio, 
+                        users.email as reporteremail,
+                        users.firstname as reporterfirstname,
+                        users.lastname as reporterlastname
+                    FROM sightings
+                    LEFT JOIN ghosts
+                        ON sightings.ghostid = ghosts.ghostid
+                    LEFT JOIN users
+                        ON sightings.reporterid = users.id
+                    WHERE sightings.month = ${month} 
+                        AND sightings.year = ${year}`;
+        connection().query(q, (error, results, fields) => {
             if (error) {
                 reject(error);
             }
