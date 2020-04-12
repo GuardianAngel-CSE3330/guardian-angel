@@ -118,7 +118,18 @@ function createSighting(sighting) {
 // GET ALL SIGHTINGS
 function getAllSightings(){
     return new Promise((resolve, reject) => {
-        connection().query(`SELECT * FROM sightings`, (error, results, fields) => {
+        const q = `SELECT sightings.*, 
+                        ghosts.name as ghostname, 
+                        ghosts.biography as ghostbio, 
+                        users.email as reporteremail,
+                        users.firstname as reporterfirstname,
+                        users.lastname as reporterlastname
+                    FROM sightings
+                    LEFT JOIN ghosts
+                        ON sightings.ghostid = ghosts.ghostid
+                    LEFT JOIN users
+                        ON sightings.reporterid = users.id`
+        connection().query(q, (error, results, fields) => {
             if (error) {
                 reject (error);
             }
