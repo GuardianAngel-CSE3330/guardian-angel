@@ -20,7 +20,7 @@ class App extends Component {
         <Router>
           <div className="App">   
       
-            <Header myprop="kek"/>
+            <Header/>
 
             <Switch>
               <Route path="/" exact component={Home} />
