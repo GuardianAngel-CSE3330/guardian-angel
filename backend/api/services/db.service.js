@@ -24,7 +24,12 @@ function query(queryString /*string*/) {
 // GET A SINGLE USER
 function getUser(email /*string*/) {
     return new Promise((resolve, reject) => {
-        connection().query(`SELECT * FROM users WHERE users.email = '${email}' LIMIT 1`, (error, results, fields) => {
+        const q = `SELECT users.*, roles.role 
+                    FROM users 
+                    LEFT JOIN roles
+                    ON users.roleid = roles.id
+                    WHERE users.email = '${email}' LIMIT 1`
+        connection().query(q, (error, results, fields) => {
             if (error) {
                 reject (error);
             }
@@ -42,7 +47,11 @@ function getUser(email /*string*/) {
 // GET ALL USERS
 function getAllUsers() {
     return new Promise( (resolve, reject) => {
-        connection().query(`SELECT * FROM users`, (error, results, fields) => {
+        const q = `SELECT users.*, roles.role
+                        FROM users
+                        LEFT JOIN roles
+                        ON users.roleid = roles.id`;
+        connection().query(q, (error, results, fields) => {
             if (error) {
                 reject (error);
             }
@@ -52,27 +61,15 @@ function getAllUsers() {
         })
     })
 }
-
-// CREATE A SINGLE USER
-function createUser(user /*user object*/) {
-    return new Promise((resolve, reject) => {
-        connection().query(`INSERT INTO users (email, hash, role, firstname, lastname)
-        VALUES ('${user.email}', '${user.hash}', '${user.role}', '${user.firstname}', '${user.lastname}')`,
-        (error, results, fields) => {
-            if (error) {
-                reject (error);
-            }
-            else {
-                resolve(results);
-            }
-        })
-    })
-}
-
 // GET USER BY ID
 function getUserById(id) {
     return new Promise( (resolve, reject) => {
-        connection().query(`SELECT * FROM users WHERE users.id = ${id} LIMIT 1`, (error, results, fields) => {
+        const q = `SELECT users.*, roles.role
+                    FROM users
+                    LEFT JOIN roles
+                    ON users.roleid = roles.id
+                    WHERE users.id = ${id} LIMIT 1`;
+        connection().query(q, (error, results, fields) => {
             if (error) {
                 reject(error);
             }
@@ -85,6 +82,23 @@ function getUserById(id) {
         })
     })
 }
+// CREATE A SINGLE USER
+function createUser(user /*user object*/) {
+    return new Promise((resolve, reject) => {
+        connection().query(`INSERT INTO users (email, hash, roleid, firstname, lastname)
+        VALUES ('${user.email}', '${user.hash}', '${user.roleid}', '${user.firstname}', '${user.lastname}')`,
+        (error, results, fields) => {
+            if (error) {
+                reject (error);
+            }
+            else {
+                resolve(results);
+            }
+        })
+    })
+}
+
+
 
 // GET ALL SIGHTINGS
 function getAllSightings(){
