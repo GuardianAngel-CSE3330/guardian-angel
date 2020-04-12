@@ -23,7 +23,9 @@ router.delete('/sightings/:id', deleteSightingByID);
 router.patch('/sightings/:id', updateSighting);
 
 router.put('/ghosts/create', createGhost);
-router.get('/ghosts/name/:name', getGhostByName)
+router.get('/ghosts/name/:name', getGhostByName);
+router.get('/ghosts/id/:id', getGhostByID);
+router.delete('/ghosts/id/:id', deleteGhostByID);
 
 ////////////////////////////////////////////////////
 // DEFINE FUNCTIONS FOR ROUTES
@@ -222,7 +224,7 @@ function getGhostByName(request, response, next) {
                 response.send(JSON.stringify(ghost));
             }
             else {
-                response.status(400).json({
+                response.status(404).json({
                     message: 'ghost not found'
                 })
             }
@@ -230,6 +232,43 @@ function getGhostByName(request, response, next) {
         .catch (err => {
             response.status(500).json({
                 message: `Error: ${err}`
+            })
+        })
+}
+
+function getGhostByID(request, response, next) {
+    const id = request.params.id;
+    console.log(`Received request to get ghost by id with id ${id}`);
+
+    dbService.getGhostByID(id)
+        .then( ghost => {
+            if (ghost) {
+                response.send(JSON.stringify(ghost));
+            }
+            else {
+                response.status(404).json({
+                    message: 'ghost not found'
+                })
+            }
+        })
+        .catch (err => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+}
+function deleteGhostByID(request, response, next) {
+    const id = request.params.id;
+
+    dbService.deleteGhostByID(id)
+        .then( results => {
+            response.status(200).json({
+                message: `OK`
+            })
+        })
+        .catch( err => {
+            response.status(500).json({
+                message: `Error ${err}`
             })
         })
 }

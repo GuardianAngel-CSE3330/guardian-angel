@@ -256,6 +256,44 @@ function getGhostByName(name) {
     
 }
 
+// GET A GHOST BY ID
+function getGhostByID(id) {
+    const q = `SELECT * FROM ghosts
+                WHERE  ghostid = ${id}
+                LIMIT 1`;
+    return new Promise ( (resolve, reject) => {
+        connection().query(q, (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            if (results) {
+                resolve(results[0]);
+            }
+            else {
+                resolve(false);
+            }
+        })
+    })
+}
+
+// DELETE GHOST BY ID
+function deleteGhostByID(id) {
+    const q = `DELETE FROM ghosts
+                WHERE ghostid = ${id}`;
+
+    return new Promise( (resolve, reject) => {
+        connection().query(q, (error, results, fields) => {
+            if (error) {
+                reject (error);
+            }
+
+            else {
+                resolve(results);
+            }
+        })
+    })
+}
+
 
 module.exports =  {
     query,
@@ -269,5 +307,7 @@ module.exports =  {
     deleteSightingByID,
     updateSighting,
     createGhost,
-    getGhostByName
+    getGhostByName,
+    getGhostByID,
+    deleteGhostByID
 }
