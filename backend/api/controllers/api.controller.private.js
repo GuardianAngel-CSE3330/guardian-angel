@@ -62,17 +62,15 @@ function createSighting(request, response, next) {
     console.log(`Received request to create a sighting`);
     let sighting = {
         reporterid : request.body.reporterid,
-        reportername : request.body.reportername,
-        reporteremail : request.body.reporteremail,
         ghostid : request.body.ghostid,
-        ghostname : request.body.ghostname,
         month: request.body.month,
         year: request.body.year,
         day: request.body.day,
         location: request.body.location,
         title: request.body.title,
         description: request.body.description,
-        imageurl: request.body.imageurl
+        imageurl: request.body.imageurl,
+        spookiness: request.body.spookiness
     };
 
     dbService.createSighting(sighting)

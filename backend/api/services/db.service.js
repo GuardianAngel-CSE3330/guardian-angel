@@ -98,7 +98,22 @@ function createUser(user /*user object*/) {
     })
 }
 
-
+// CREATE A SIGHTING
+function createSighting(sighting) {
+    return new Promise((resolve, reject) => {
+        connection().query(`INSERT INTO sightings (reporterid, ghostid, month, year, day, location, title, description, imageurl, spookiness)
+        VALUES (${sighting.reporterid}, ${sighting.ghostid}, ${sighting.month}, ${sighting.year}, ${sighting.day},  '${sighting.location}', '${sighting.title}', '${sighting.description}', '${sighting.imageurl}', ${sighting.spookiness})`,
+        (error, results, fields) => {
+            if (error) {
+                reject (error);
+            }
+            else {
+                resolve(results);
+            }
+            
+        })
+    })
+}
 
 // GET ALL SIGHTINGS
 function getAllSightings(){
@@ -111,23 +126,6 @@ function getAllSightings(){
                 resolve(results);
             }
 
-        })
-    })
-}
-
-// CREATE A SIGHTING
-function createSighting(sighting) {
-    return new Promise((resolve, reject) => {
-        connection().query(`INSERT INTO sightings (reporterid, reportername, reporteremail, ghostid, ghostname, month, year, day, location, title, description, imageurl)
-        VALUES (${sighting.reporterid}, '${sighting.reportername}', '${sighting.reporteremail}', ${sighting.ghostid}, '${sighting.ghostname}', ${sighting.month}, ${sighting.year}, ${sighting.day},  '${sighting.location}', '${sighting.title}', '${sighting.description}', '${sighting.imageurl}')`,
-        (error, results, fields) => {
-            if (error) {
-                reject (error);
-            }
-            else {
-                resolve(results);
-            }
-            
         })
     })
 }
