@@ -4,13 +4,9 @@
 
 const express = require('express');                 // WE NEED EXPRESS HERE TOO
 const router = express.Router();                    // CREATE A ROUTER
-const jwt = require('jsonwebtoken');                // FOR AUTHENTICATION
-const _ = require('lodash');                        // FOR OBJECT MANIPULATION
 
 // SERVICES
 const dbService = require('../services/db.service');              // PROVIDE ACCESS TO DB
-const jwtService = require('../services/jwt.service')             // PROVIDE SECURITY FUNCTIONALITY
-const passwordService = require('../services/password.service');  // PROVIDE PASSWORD HASHING FUNCTIONALITY
 
 // DEFINE ROUTES
 router.get('/users/all', getAllUsers);
@@ -23,6 +19,7 @@ router.delete('/sightings/:id', deleteSightingByID);
 router.patch('/sightings/:id', updateSighting);
 
 router.put('/ghosts/create', createGhost);
+router.get('/ghosts/all', getAllGhosts);
 router.get('/ghosts/name/:name', getGhostByName);
 router.get('/ghosts/id/:id', getGhostByID);
 router.delete('/ghosts/id/:id', deleteGhostByID);
@@ -212,6 +209,20 @@ function createGhost(request, response, next) {
     
 }
 
+// GET ALL GHOSTS
+function getAllGhosts(request, response, next) {
+    dbService.getAllGhosts()
+        .then( results => {
+            response.send(JSON.stringify(results));
+        })
+        .catch (err => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+}
+
+// GET A GHOST BY NAME
 function getGhostByName(request, response, next) {
 
     
@@ -236,6 +247,7 @@ function getGhostByName(request, response, next) {
         })
 }
 
+// GET A GHOST BY ID
 function getGhostByID(request, response, next) {
     const id = request.params.id;
     console.log(`Received request to get ghost by id with id ${id}`);
@@ -257,6 +269,8 @@ function getGhostByID(request, response, next) {
             })
         })
 }
+
+// DELETE A GHOST BY ID
 function deleteGhostByID(request, response, next) {
     const id = request.params.id;
 
@@ -272,4 +286,6 @@ function deleteGhostByID(request, response, next) {
             })
         })
 }
+
+
 module.exports = router;

@@ -294,6 +294,20 @@ function deleteGhostByID(id) {
     })
 }
 
+function getAllGhosts() {
+    const q = `SELECT * FROM ghosts`;
+    return new Promise( (resolve, reject) => {
+        connection().query(q, (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve(results);
+            }
+        })
+    })
+}
+
 
 module.exports =  {
     query,
@@ -309,5 +323,6 @@ module.exports =  {
     createGhost,
     getGhostByName,
     getGhostByID,
+    getAllGhosts,
     deleteGhostByID
 }
