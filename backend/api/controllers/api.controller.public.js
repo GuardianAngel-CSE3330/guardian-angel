@@ -26,7 +26,7 @@ function helloworld(request, response, next) {
     response.end();
 }
 
-// BODY NEEDS: email, firstname, lastname, password, (role)
+// BODY NEEDS: email, firstname, lastname, password, roleid
 function createUser(request, response, next) {
     console.log("received request to create a user");
 
@@ -46,7 +46,7 @@ function createUser(request, response, next) {
             message: "Must specify user last name!"
         })
     }
-    if(!request.body.role) {
+    if(!request.body.roleid) {
         response.status(400).json({
             message: "Must specify role!"
         })
@@ -77,7 +77,7 @@ function createUser(request, response, next) {
                                 let newUser = {
                                     'email': request.body.email,
                                     'hash': hash,
-                                    'role': request.body.role || 'user',
+                                    'roleid': parseInt(request.body.roleid),
                                     'firstname': request.body.firstname,
                                     'lastname': request.body.lastname
                                 }

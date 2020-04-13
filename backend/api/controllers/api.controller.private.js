@@ -4,22 +4,25 @@
 
 const express = require('express');                 // WE NEED EXPRESS HERE TOO
 const router = express.Router();                    // CREATE A ROUTER
-const jwt = require('jsonwebtoken');                // FOR AUTHENTICATION
-const _ = require('lodash');                        // FOR OBJECT MANIPULATION
 
 // SERVICES
 const dbService = require('../services/db.service');              // PROVIDE ACCESS TO DB
-const jwtService = require('../services/jwt.service')             // PROVIDE SECURITY FUNCTIONALITY
-const passwordService = require('../services/password.service');  // PROVIDE PASSWORD HASHING FUNCTIONALITY
 
 // DEFINE ROUTES
 router.get('/users/all', getAllUsers);
-router.get('/users/:id', getOneUser)
+router.get('/users/:id', getOneUser);
+
 router.put('/sightings/create', createSighting);
 router.get('/sightings/:month/:year', getSightingsByMonth);
 router.get('/sightings/all', getAllSightings);
 router.delete('/sightings/:id', deleteSightingByID);
 router.patch('/sightings/:id', updateSighting);
+
+router.put('/ghosts/create', createGhost);
+router.get('/ghosts/all', getAllGhosts);
+router.get('/ghosts/name/:name', getGhostByName);
+router.get('/ghosts/id/:id', getGhostByID);
+router.delete('/ghosts/id/:id', deleteGhostByID);
 
 ////////////////////////////////////////////////////
 // DEFINE FUNCTIONS FOR ROUTES
@@ -62,17 +65,15 @@ function createSighting(request, response, next) {
     console.log(`Received request to create a sighting`);
     let sighting = {
         reporterid : request.body.reporterid,
-        reportername : request.body.reportername,
-        reporteremail : request.body.reporteremail,
         ghostid : request.body.ghostid,
-        ghostname : request.body.ghostname,
         month: request.body.month,
         year: request.body.year,
         day: request.body.day,
         location: request.body.location,
         title: request.body.title,
         description: request.body.description,
-        imageurl: request.body.imageurl
+        imageurl: request.body.imageurl,
+        spookiness: request.body.spookiness
     };
 
     dbService.createSighting(sighting)
@@ -160,4 +161,131 @@ function updateSighting(request, response, next) {
         })
     
 }
+
+// CREATE A GHOST, BODY PARAMS OF NAME AND BIOGRAPHY
+function createGhost(request, response, next) {
+    if (!request.body.name) {
+        response.status(400).json({
+            message: `Must specify a ghost name in your request!`
+        })
+    }
+
+    if (!request.body.biography) {
+        response.status(400).json({
+            message: `Must specify a ghost biography!`
+        })
+    }
+    let name = request.body.name;
+    let bio = request.body.biography;
+
+    console.log(`received request to create a ghost with name ${name}`);
+
+    // CHECK TO SEE IF THE GHOST ALREADY EXISTS
+    dbService.getGhostByName(name)
+        .then( ghost => {
+
+            // IF THE GHOST ALREADY EXISTS
+            if (ghost) {
+                response.status(400).json({
+                    message: 'A ghost with that name already exists!'
+                })
+            }
+
+            // IF IT DOES EXIST CREATE IT
+            else {
+                dbService.createGhost(name, bio)
+                    .then( results => {
+                        response.status(200).json({
+                            message: 'OK'
+                        })
+                    })
+                    .catch( err => {
+                        response.status(500).json({
+                            message: `Error: ${err}`
+                        })
+                    })
+            }
+        })
+    
+}
+
+// GET ALL GHOSTS
+function getAllGhosts(request, response, next) {
+    dbService.getAllGhosts()
+        .then( results => {
+            response.send(JSON.stringify(results));
+        })
+        .catch (err => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+}
+
+// GET A GHOST BY NAME
+function getGhostByName(request, response, next) {
+
+    
+    const name = request.params.name;
+    console.log(`Received request to get ghost by name with name ${name}`);
+
+    dbService.getGhostByName(name)
+        .then( ghost => {
+            if (ghost) {
+                response.send(JSON.stringify(ghost));
+            }
+            else {
+                response.status(404).json({
+                    message: 'ghost not found'
+                })
+            }
+        })
+        .catch (err => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+}
+
+// GET A GHOST BY ID
+function getGhostByID(request, response, next) {
+    const id = request.params.id;
+    console.log(`Received request to get ghost by id with id ${id}`);
+
+    dbService.getGhostByID(id)
+        .then( ghost => {
+            if (ghost) {
+                response.send(JSON.stringify(ghost));
+            }
+            else {
+                response.status(404).json({
+                    message: 'ghost not found'
+                })
+            }
+        })
+        .catch (err => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+}
+
+// DELETE A GHOST BY ID
+function deleteGhostByID(request, response, next) {
+    const id = request.params.id;
+
+    dbService.deleteGhostByID(id)
+        .then( results => {
+            response.status(200).json({
+                message: `OK`
+            })
+        })
+        .catch( err => {
+            response.status(500).json({
+                message: `Error ${err}`
+            })
+        })
+}
+
+
 module.exports = router;
