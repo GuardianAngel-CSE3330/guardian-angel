@@ -6,32 +6,37 @@ class ReportSighting extends React.Component {
     days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
     years = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020];
     state = {
-        reporterid: '', //Do I handle ID or does the back end
-        reporterfirstname: '',
-        reporterlasttname: '',
-        reporteremail: '',
-        ghostid: '',
+        reporterid: '1', //Do I handle ID or does the back end
+        //reporterfirstname: '',
+        //reporterlasttname: '',
+        reportername:'test',
+        reporteremail: 'test@email.com',
+        ghostid: '1',
         ghostname: '',//Who handles IDs
         month: '',
         year: '',
         day: '',
         location: '',
         title: '',
-        imageurl: ''
+        imageurl: '',
+        description: ''
     }
     
 
     createSighting(){
+        const config = {
+            headers: { Authorization: 'Bearer ' + localStorage.getItem('token')}
+        };
+        
         axios.post('http://localhost:8000/api/private/sightings/create',
-        this.state)
-        .then (res => {
-            console.log(res);
-            }
+            config,
+            this.state
         );
         this.setState({
             reporterid: '', //Do I handle ID or does the back end
-            reporterfirstname: '',
-            reporterlasttname: '',
+            //reporterfirstname: '',
+            //reporterlasttname: '',
+            reportername:'',
             reporteremail: '',
             ghostid: '',
             ghostname: '',//Who handles IDs
@@ -40,17 +45,19 @@ class ReportSighting extends React.Component {
             day: '',
             location: '',
             title: '',
-            imageurl: ''
+            imageurl: '',
+            description: ''
         });
     }
     //ReporterID
     
+    /*
     handleChangeFirstName(event){
         this.setState({firstname: event.target.value});
     } 
     handleChangeLastName(event){
         this.setState({lastname: event.target.value});
-    }
+    }*/
     
     handleChangeEmail(event){
         this.setState({reporteremail: event.target.value});
@@ -80,6 +87,9 @@ class ReportSighting extends React.Component {
     }
     handleChangeGhostImage(event){
         this.setState({imageurl: event.target.value});
+    }
+    handleChangeDescription(event){
+        this.setState({description: event.target.value});
     }
 
     render() {
@@ -162,16 +172,16 @@ class ReportSighting extends React.Component {
                             
                         </div>
 
-                        {/*
+                        
                         <div className="form-group">
-                            <label htmlFor="sightingDesc">Sighting Description</label>
+                            <label htmlFor="sightingDesc">Description of Ghost*</label>
                             <input type = "text"
                                 id="sightingDesc"
                                 name="sightingDesc"
                                 className="form-control"
+                                onChange = {e => this.handleChangeLocation(e)}
                                 />
                         </div>
-                        */}
                         
                         {/* 
                         <div className="form-group">
@@ -184,7 +194,7 @@ class ReportSighting extends React.Component {
                         */}
 
                         <div className="form-group">
-                            <label htmlFor="ghostPhoto">Photo of URL: </label>
+                            <label htmlFor="ghostPhoto">URL of Ghost Image: </label>
                             <input type = "text"
                                 id="ghostPhoto"
                                 name="ghostPhoto"

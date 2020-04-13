@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import SafeGuide from '../pages/safeGuide.jsx';
 
 class LoginForm extends React.Component{
     state = {
@@ -16,6 +15,7 @@ class LoginForm extends React.Component{
             console.log(res);
             }
         )
+        
         //Once you get the bearer token --> store it in local storage
     }
 

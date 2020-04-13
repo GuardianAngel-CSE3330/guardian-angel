@@ -1,6 +1,6 @@
 import React from 'react';
 import profile from '../images/profile.png';
-import axios from 'axios';
+//import axios from 'axios';
 class EditProfileForm extends React.Component {
     state = {
         email: '',
