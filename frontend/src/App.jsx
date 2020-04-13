@@ -9,7 +9,9 @@ import SafeGuide from './components/pages/safeGuide.jsx';
 import ReportSighting from './components/formsComponent/reportSighting.jsx';
 import ProfileForm from './components/formsComponent/profileForm.jsx';
 import Home from './components/pages/home.jsx';
-import EditProfileForm from './components/formsComponent/editProfile.jsx'
+import EditProfileForm from './components/formsComponent/editProfile.jsx';
+
+import ViewProfile from './components/formsComponent/viewProfile';
 
 
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
@@ -32,6 +34,8 @@ class App extends Component {
               <Route path="/register" component={ProfileForm} /> 
 
               <Route path ="/safeguide" component = {SafeGuide}/>
+
+              <Route path = "/myprofile" component = {ViewProfile}/>
                
             </Switch>
             
