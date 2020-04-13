@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import SafeGuide from '../pages/safeGuide';
 
 class LoginForm extends React.Component{
     state = {
@@ -13,12 +14,14 @@ class LoginForm extends React.Component{
         this.state)
         .then(res => {
             //Once you get the bearer token --> store it in local storage
-            localStorage.setItem("bearer_token", JSON.stringify(res.data));
+            var queryResult = JSON.stringify(res.data);
+            var token = JSON.parse(queryResult);
+            localStorage.setItem("bearer_token", token.id_token);
             }
             //https://www.tutorialrepublic.com/faq/how-to-store-javascript-objects-in-html5-localstorage.php
         )
-        setTimeout(this.setState({email: '', password: ''}));
-        console.log(localStorage.getItem('bearer_token'));
+        setTimeout(this.setState({email: '', password: ''}), 1000);
+ 
     }
 
 

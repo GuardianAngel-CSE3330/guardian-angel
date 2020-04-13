@@ -18,7 +18,7 @@ function Header() {
                                 Home
                             </li>
                         </Link>
-                        <Link style={navStyle} to="/profile">
+                        <Link style={navStyle} to="/myprofile">
                             <li className = "nav-item active mx-2">
                                 Profile
                             </li>
