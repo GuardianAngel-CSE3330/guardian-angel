@@ -22,7 +22,7 @@ class ProfileForm extends React.Component {
             password: '',
             firstname: '',
             lastname: '',
-            role: ''
+            roleid: ''
         });
     }
 
@@ -39,7 +39,7 @@ class ProfileForm extends React.Component {
         this.setState({password: event.target.value});
     }
     handleChangeRole(event){
-        this.setState({role: event.target.value});
+        this.setState({roleid: event.target.value});
     }
 
     render() {
@@ -99,12 +99,9 @@ class ProfileForm extends React.Component {
                         onChange = {e => this.handleChangeRole(e)}
                         required>
                             <option></option>
-                            <option value="author">Author</option>
-                            <option value="exorcist">Exorcist</option>
-                            <option value="general">General</option>
-                            <option value="tormentedSoul">Moderator</option>
-                            <option value="reporter">Reporter</option>
-                            <option value="tormentedSoul">Tormented Soul</option>
+                            <option value="1">Admin</option>
+                            <option value="2">User</option>
+                            <option value="3">Exorcist</option>
                         </select>
                     </div>
 

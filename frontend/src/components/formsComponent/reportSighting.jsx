@@ -26,7 +26,7 @@ class ReportSighting extends React.Component {
     createSighting(){
         const config = {
             headers: { Authorization: 'Bearer ' + localStorage.getItem('token')}
-        };x
+        };
         
         axios.post('http://localhost:8000/api/private/sightings/create',
             config,

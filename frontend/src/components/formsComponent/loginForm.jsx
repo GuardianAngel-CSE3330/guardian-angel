@@ -52,8 +52,8 @@ class LoginForm extends React.Component{
                             onChange={e => this.handleChangePW(e)}/>
                     </div> 
                 </form>
-                <Link to ="/safeguide"><button type="button" className = "btn btn-primary" onClick={e => this.loginWithCredentials()}>Login</button></Link>
-                <Link to="/register"><button className = "btn btn-secondary">Register</button></Link>
+                <Link to = "/safeguide"><button type="button" className = "btn btn-primary" onClick={e => this.loginWithCredentials()}>Login</button></Link>
+               <Link to="/register"><button className = "btn btn-secondary">Register</button></Link>
             </div>
         )
     }
