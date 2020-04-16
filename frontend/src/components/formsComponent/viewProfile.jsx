@@ -4,37 +4,47 @@ import axios from 'axios';
 
 class ViewProfile extends React.Component {
 
-    profileToken = localStorage.getItem('bearer_token');
-
     config = {
-        header: 'Bearer '
+        headers: {
+            Authorization: 'Bearer '
+        }
     }
 
-    createAuthToken() {
-        debugger;
-        var profileToken = localStorage.getItem('bearer_token');
-        setTimeout(this.config.header = this.config.header.concat(profileToken), 2000);
+    async createAuthToken() {
+        var profileToken = await localStorage.getItem('bearer_token');
+        console.log('|' + profileToken + '|');
+        this.config.headers.Authorization = this.config.headers.Authorization.concat(profileToken);
     }
 
-    render() {
+    async componentDidMount() {
         //decode id token
-        this.createAuthToken();
-        var token = this.config.header.substring(7); //substring 7 to remove "Bearer " from token
+        await this.createAuthToken();
+        console.log("Created token");
+        var token = this.config.headers.Authorization.substring(7); //substring 7 to remove "Bearer " from token
         debugger;
         //get details from decoding id token
         var params = parseJwt(token);
-        axios.get(`http://localhost:8000/api/private/users/${params.id}`, this.config)
-        .then(
+        console.log(JSON.stringify(this.config));
+        await axios.get(`http://localhost:8000/api/private/users/${params.id}`, this.config)
+        .then((res) => {
+            console.log(res);
+        }
             //show user profile
             
         )
-        .catch(
+        .catch(e =>
+            alert("Error")
         //otherwise (error) display a "you don't have a profile yet"
         )
+    }
+
+    render() {
+    
         return <>
         {/*edit button --> editprofile view */}
         <button className="btn btn-secondary">Edit Profile</button>
         </>
     }
+
 }
 export default ViewProfile;

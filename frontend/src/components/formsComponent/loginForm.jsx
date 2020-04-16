@@ -21,6 +21,10 @@ class LoginForm extends React.Component{
             }
             //https://www.tutorialrepublic.com/faq/how-to-store-javascript-objects-in-html5-localstorage.php
         )
+        .catch(res => {
+            window.location.replace("http://localhost:3000/")
+            alert("Error logging in. Please try again.")
+        })
         setTimeout(this.setState({email: '', password: ''}), 1000);
  
     }
