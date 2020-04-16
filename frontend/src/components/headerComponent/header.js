@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ghostLogo from '../images/ghostLogo.png';
-import {Link, withRouter} from 'react-router-dom';
+import {Link} from 'react-router-dom';
 function Header() {
     const navStyle = {
         color: 'white'
@@ -24,7 +24,7 @@ function Header() {
                             </li>
                         </Link>
                         <Link style={navStyle} to="/reportsighting">
-                            <li cclassName = "nav-item active mx-2 ">
+                            <li className = "nav-item active mx-2 ">
                                 Report Sighting
                             </li>
                         </Link>
