@@ -1,7 +1,6 @@
 import React from 'react';
 import parseJwt from '../parsejwt';
 import axios from 'axios';
-import { Link } from 'react-router-dom';
 
 class ViewProfile extends React.Component {
 
@@ -12,7 +11,7 @@ class ViewProfile extends React.Component {
     }
 
     createAuthToken() {
-        //debugger;
+        debugger;
         var profileToken = localStorage.getItem('bearer_token');
         setTimeout(this.config.header = this.config.header.concat(profileToken), 2000);
     }
@@ -21,15 +20,12 @@ class ViewProfile extends React.Component {
         //decode id token
         this.createAuthToken();
         var token = this.config.header.substring(7); //substring 7 to remove "Bearer " from token
-        //debugger;
+        debugger;
         //get details from decoding id token
         var params = parseJwt(token);
-        //debugger;
-        console.log(token)
         axios.get(`http://localhost:8000/api/private/users/${params.id}`, this.config)
         .then(
             //show user profile
-            <button>Test</button>
             
         )
         .catch(
@@ -37,10 +33,8 @@ class ViewProfile extends React.Component {
         )
         return <>
         {/*edit button --> editprofile view */}
-        <Link to="/editprofile"><button className="btn btn-secondary">Edit Profile</button></Link>
+        <button className="btn btn-secondary">Edit Profile</button>
         </>
-
     }
 }
-
 export default ViewProfile;
