@@ -189,6 +189,19 @@ function getSightingsByGhost(ghost) {
     })
 }
 
+// GET ALL LOCATIONS WE HAVE SIGHTINGS AT
+function getSightingLocations() {
+    return new Promise( (resolve, reject) => {
+        connection().query(`SELECT DISTINCT location FROM sightings`, (error, results, fields) => {
+            if (error ) {
+                reject (error);
+            }
+            else {
+                resolve(results); 
+            }
+        })
+    })
+}
 // DELETE A SIGHTING
 function deleteSightingByID(sightingID) {
     return new Promise ( (resolve, reject) => {
@@ -340,6 +353,7 @@ module.exports =  {
     createSighting,
     getSightingsByDate,
     getSightingsByGhost,
+    getSightingLocations,
     deleteSightingByID,
     updateSighting,
     createGhost,

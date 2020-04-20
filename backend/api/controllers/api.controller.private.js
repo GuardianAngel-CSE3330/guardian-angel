@@ -16,6 +16,7 @@ router.put('/sightings/create', createSighting);
 router.get('/sightings/date/:month/:year', getSightingsByMonth);
 router.get('/sightings/all', getAllSightings);
 router.get('/sightings/ghost/:ghost', getSightingsByGhost);
+router.get('/sightings/locations', getSightingLocations);
 router.delete('/sightings/:id', deleteSightingByID);
 router.patch('/sightings/:id', updateSighting);
 
@@ -141,6 +142,24 @@ function getSightingsByGhost(request, response, next) {
             }
         })
         .catch( err => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+}
+
+// GET ALL DISTINCT LOCATIONS FROM SIGHTINGS
+function getSightingLocations(request, response, next) {
+    console.log(`Received request to get sighting locations`);
+    dbService.getSightingLocations()
+        .then(results => {
+            let locations = [];
+            results.forEach((locObject) => {
+                locations.push(locObject["location"]);
+            })
+            response.send(JSON.stringify(locations));
+        })
+        .catch (err => {
             response.status(500).json({
                 message: `Error: ${err}`
             })
