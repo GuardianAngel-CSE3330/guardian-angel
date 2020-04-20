@@ -168,6 +168,27 @@ function getSightingsByDate(month, year) {
     })
 }
 
+// GET SIGHTINGS BY GHOST
+function getSightingsByGhost(ghost) {
+    
+    const q = `SELECT * 
+                FROM sightings
+                LEFT JOIN ghosts
+                    ON sightings.ghostid = ghosts.ghostid 
+                WHERE ghosts.name LIKE '%${ghost}%'`;
+    
+    return new Promise( (resolve, reject) => {
+        connection().query(q, (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve(results);
+            }
+        })
+    })
+}
+
 // DELETE A SIGHTING
 function deleteSightingByID(sightingID) {
     return new Promise ( (resolve, reject) => {
@@ -318,6 +339,7 @@ module.exports =  {
     getAllSightings,
     createSighting,
     getSightingsByDate,
+    getSightingsByGhost,
     deleteSightingByID,
     updateSighting,
     createGhost,

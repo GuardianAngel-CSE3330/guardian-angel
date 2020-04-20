@@ -13,8 +13,9 @@ router.get('/users/all', getAllUsers);
 router.get('/users/:id', getOneUser);
 
 router.put('/sightings/create', createSighting);
-router.get('/sightings/:month/:year', getSightingsByMonth);
+router.get('/sightings/date/:month/:year', getSightingsByMonth);
 router.get('/sightings/all', getAllSightings);
+router.get('/sightings/ghost/:ghost', getSightingsByGhost);
 router.delete('/sightings/:id', deleteSightingByID);
 router.patch('/sightings/:id', updateSighting);
 
@@ -117,6 +118,29 @@ function getAllSightings(request, response, next) {
             response.send(JSON.stringify(results));
         })
         .catch ( (err) => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+}
+
+// GET ALL SIGHTINGS IDENTIFIED BY A GHOST
+function getSightingsByGhost(request, response, next) {
+    const ghost = request.params.ghost;
+
+    console.log(`Received request to get sightings with ghost ${ghost}`);
+    dbService.getSightingsByGhost(ghost)
+        .then (results => {
+            if (results.length == 0) {
+                response.status(404).json({
+                    message: `No sightings found for ghost: ${ghost}`
+                })
+            }
+            else {
+                response.send(JSON.stringify(results));
+            }
+        })
+        .catch( err => {
             response.status(500).json({
                 message: `Error: ${err}`
             })
