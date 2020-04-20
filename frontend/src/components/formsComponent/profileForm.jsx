@@ -58,6 +58,7 @@ class ProfileForm extends React.Component {
                             id="fname"
                             name="fname"
                             className="form-control"
+                            placeholder = "First Name"
                             onChange = {e => this.handleChangeFirstName(e)}
                             required/>
                     </div>
@@ -68,6 +69,7 @@ class ProfileForm extends React.Component {
                             id="lname"
                             name="lname"
                             className="form-control"
+                            placeholder = "Last Name"
                             onChange = {e => this.handleChangeLastName(e)}
                             required/>
                     </div>
@@ -78,6 +80,7 @@ class ProfileForm extends React.Component {
                             id="email"
                             name="email"
                             className="form-control"
+                            placeholder = "Email Address"
                             onChange = {e => this.handleChangeEmail(e)}
                             required/>
                     </div>
@@ -87,6 +90,7 @@ class ProfileForm extends React.Component {
                         <input type="password"
                             id="password"
                             name="passwrod"
+                            placeholder = "Password"
                             className="form-control"
                             onChange = {e => this.handleChangePassword(e)}
                             required/>

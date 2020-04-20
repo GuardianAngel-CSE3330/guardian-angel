@@ -10,7 +10,7 @@ class ReportSighting extends React.Component {
     spookienessLevel = [1,2,3,4,5];
     state = {
         reporterid: '', 
-        ghostid: '',
+        ghostid: '3',
         month: '',
         year: '',
         day: '',
@@ -21,14 +21,44 @@ class ReportSighting extends React.Component {
         spookiness: ''
     }
 
-    createSighting(){
+    config = {
+        headers: {
+            Authorization: 'Bearer '
+        }
+    }
 
-        axios.post('http://localhost:8000/api/private/sightings/create',
-            this.state
+    async createAuthToken() {
+        var profileToken = await localStorage.getItem('bearer_token');
+        console.log('|' + profileToken + '|');
+        this.config.headers.Authorization = this.config.headers.Authorization.concat(profileToken);
+    }
+
+    async componentDidMount() {
+        //decode id token
+        await this.createAuthToken();
+        console.log("Created token");
+        var token = this.config.headers.Authorization.substring(7); //substring 7 to remove "Bearer " from token
+        //get details from decoding id token
+        var params = parseJwt(token);
+        console.log(JSON.stringify(this.config));
+        this.setState({reporterid: params.id});
+    }
+    
+
+    createSighting(){
+        debugger;
+        axios.put('http://localhost:8000/api/private/sightings/create',
+        this.state,
+        this.config
+        ).then(res => {
+            //Once you get the bearer token --> store it in local storage
+            debugger;
+            console.log(res)
+            }   
         );
-        this.setState({
+        this.setStatestate = {
             reporterid: '', 
-            ghostid: '2',
+            ghostid: '',
             month: '',
             year: '',
             day: '',
@@ -37,7 +67,7 @@ class ReportSighting extends React.Component {
             description: '',
             imageurl: '',
             spookiness: ''
-        });
+        }
     }
     
     
@@ -63,7 +93,7 @@ class ReportSighting extends React.Component {
         this.setState({description: event.target.value});
     }
     handleChangeSpookiness(event){
-        this.setState({spookieness: event.target.value});
+        this.setState({spookiness: event.target.value});
     }
 
     render() {
@@ -79,6 +109,7 @@ class ReportSighting extends React.Component {
                                 id="sightingTitle"
                                 name="sightingTitle"
                                 className="form-control"
+                                placeholder = "Sighting Title"
                                 onChange = {e => this.handleChangeGhostTitle(e)}
                                 required/>
                         </div>
@@ -89,6 +120,7 @@ class ReportSighting extends React.Component {
                                 id="location"
                                 name="location"
                                 className="form-control"
+                                placeholder = "Location of Sighting"
                                 onChange = {e => this.handleChangeLocation(e)}
                                 required/>
                         </div>
@@ -138,8 +170,9 @@ class ReportSighting extends React.Component {
                             <input type = "text"
                                 id="sightingDesc"
                                 name="sightingDesc"
+                                placeholder = "Description of Ghost"
                                 className="form-control"
-                                onChange = {e => this.handleChangeLocation(e)}
+                                onChange = {e => this.handleChangeDescription(e)}
                                 />
                         </div>
                         
@@ -150,13 +183,14 @@ class ReportSighting extends React.Component {
                                 id="ghostPhoto"
                                 name="ghostPhoto"
                                 className="form-control-photo" 
+                                placeholder = "URL"
                                 onChange = {e => this.handleChangeGhostImage(e)}/>
                         </div>
 
                         <div className="form-group">
                             <label htmlFor="ghostRating">Spookiness Level</label>
                                 <select id="spookieness" name="spookiness"
-                                onChange = {e => this.handleChangeMonth(e)}
+                                onChange = {e => this.handleChangeSpookiness(e)}
                                 required>
                                     <option></option>
                                     {
@@ -164,7 +198,6 @@ class ReportSighting extends React.Component {
                                     }
                                 </select>
                         </div>
-                       
                     </form>
                     <button type = "submit" 
                         className = "btn btn-primary"

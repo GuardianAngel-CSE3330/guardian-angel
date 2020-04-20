@@ -1,7 +1,37 @@
 import React, { Component } from 'react';
-//import axios from 'axios';
+import axios from 'axios';
 
 class SafeGuide extends Component {
+    state = {
+        allGhosts: []
+    }
+    testGhosts = [];
+    config = {
+        headers: {
+            Authorization: 'Bearer '
+        }
+    }
+
+    async createAuthToken() {
+        var profileToken = await localStorage.getItem('bearer_token');
+        console.log('|' + profileToken + '|');
+        this.config.headers.Authorization = this.config.headers.Authorization.concat(profileToken);
+    }
+
+    async componentDidMount() {
+        await this.createAuthToken();
+        console.log("Created token");
+        console.log(JSON.stringify(this.config));
+        await axios.get(`http://localhost:8000/api/private/ghosts/all`, this.config)
+        .then((res) => {
+            console.log(res);
+        }
+        )
+        .catch(e =>
+            alert("Error")
+        )
+    }
+
     render(){
         return (
             <div>
@@ -23,38 +53,10 @@ class SafeGuide extends Component {
 
 
                     <div className = "block-example border border-dark m-2">
-                        <p>
-                            SAFEGUIDE TO DO
-
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when a
-                            n unknown printer took a galley of type and scrambled it to make a type specimen book. It 
-                            has survived not only five centuries, but also the leap into electronic typesetting, remaining es
-                            sentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing L
-                            orem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including ver
-                            sions of Lorem Ipsum.
-                        </p>
-                        <p>
-                        
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when a
-                            n unknown printer took a galley of type and scrambled it to make a type specimen book. It 
-                            has survived not only five centuries, but also the leap into electronic typesetting, remaining es
-                            sentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing L
-                            orem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including ver
-                            sions of Lorem Ipsum.
-                        </p>
-                        <p>
-                        
-                            Lorem Ipsum is simply dummy text of the printing and typesetting industry. 
-                            Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when a
-                            n unknown printer took a galley of type and scrambled it to make a type specimen book. It 
-                            has survived not only five centuries, but also the leap into electronic typesetting, remaining es
-                            sentially unchanged. It was popularised in the 1960s with the release of Letraset sheets containing L
-                            orem Ipsum passages, and more recently with desktop publishing software like Aldus PageMaker including ver
-                            sions of Lorem Ipsum.
-                        </p>
                     </div>
+
+                    
+                    
                 </div>
     );
     }

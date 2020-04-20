@@ -28,6 +28,11 @@ function Header() {
                                 Report Sighting
                             </li>
                         </Link>
+                        <Link style={navStyle} to="/createghost">
+                            <li className = "nav-item active mx-2 ">
+                                Create Ghost
+                            </li>
+                        </Link>
                     </ul>
                 </div>
                 

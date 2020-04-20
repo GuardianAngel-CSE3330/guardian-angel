@@ -10,6 +10,7 @@ import ProfileForm from './components/formsComponent/profileForm.jsx';
 import Home from './components/pages/home.jsx';
 import EditProfileForm from './components/formsComponent/editProfile.jsx';
 import ViewProfile from './components/formsComponent/viewProfile.jsx';
+import CreateGhost from './components/formsComponent/createGhost.jsx';
 
 
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
@@ -34,6 +35,8 @@ class App extends Component {
               <Route path ="/safeguide" component = {SafeGuide}/>
 
               <Route path = "/myprofile" component = {ViewProfile}/>
+
+              <Route path = "/createghost" component = {CreateGhost} />
                
             </Switch>
             

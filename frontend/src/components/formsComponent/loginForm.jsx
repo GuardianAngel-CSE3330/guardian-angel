@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import SafeGuide from '../pages/safeGuide';
 
 class LoginForm extends React.Component{
     state = {
@@ -47,6 +46,7 @@ class LoginForm extends React.Component{
                         <input type = "email" className = "form-control"
                             name = "email" 
                             value={this.state.email}
+                            placeholder = "Email Address"
                             onChange={e => this.handleChangeUser(e)}/>
                     </div>
                     <div className = "form-group">
@@ -54,6 +54,7 @@ class LoginForm extends React.Component{
                         <input type = "password" className = "form-control"
                             name = "password" 
                             value={this.state.password}
+                            placeholder = "Password"
                             onChange={e => this.handleChangePW(e)}/>
                     </div> 
                 </form>
