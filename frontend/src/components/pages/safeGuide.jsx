@@ -2,6 +2,48 @@ import React, { Component } from 'react';
 import axios from 'axios';
 
 class SafeGuide extends Component {
+
+    config = {
+        headers: {
+            Authorization: 'Bearer '
+        }
+    }
+
+    state = {
+
+    }
+
+
+    async handleButtonPress(){
+        if (localStorage.getItem('bearer_token')) {
+            await this.createAuthToken();
+        } else {
+            alert("Please log in before searching the database!");
+            return;
+        }
+
+
+        if (!this.state.type) {
+            alert("Please pick a search parameter!")
+        }
+        else if (this.state.type === 'location') {
+            //await axios call
+        }
+        else if (this.state.type === 'ghost') {
+            //await axios call
+        }
+        else if (this.state.type === 'sighting') {
+            //await axios call
+        }
+    }
+
+
+    async createAuthToken() {
+        var profileToken = await localStorage.getItem('bearer_token');
+        console.log('|' + profileToken + '|');
+        this.config.headers.Authorization = this.config.headers.Authorization.concat(profileToken);
+    }
+
     render(){
         return (
             <div>
@@ -9,16 +51,18 @@ class SafeGuide extends Component {
                     <input type="text" placeholder="Search.."></input>
                     <hr></hr>
                     <input type="radio" id="locSearch" 
-                    name="searchType" value="locSearch"></input>
+                    name="searchType" value="locSearch" onClick={() => this.setState({type: 'location'})}></input>
                         <label htmlFor="locSearch">By Location:  </label>
 
                     <input type="radio" id="ghoSearch" 
-                    name="searchType" value="ghoSearch"></input>
+                    name="searchType" value="ghoSearch" onClick={() => this.setState({type: 'ghost'})}></input>
                         <label htmlFor="locSearch">By Ghost:  </label>
 
                     <input type="radio" id="sigSearch" 
-                    name="searchType" value="sigSearch"></input>
-                        <label htmlFor="locSearch">By Sighting:  </label>
+                    name="searchType" value="sigSearch" onClick={() => this.setState({type: 'sighting'})}></input>
+                        <label htmlFor="sigSearch">By Sighting:  </label>
+                    <button type="button" className="btn btn-primary" 
+                    onClick={() => this.handleButtonPress()}>Search the Database</button>
                     </div>
 
 

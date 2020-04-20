@@ -21,6 +21,15 @@ class ViewProfile extends React.Component {
     }
 
     async componentDidMount() {
+        if (localStorage.getItem('bearer_token')) {
+            await this.createAuthToken();
+        } else {
+            //WHY IS THIS NOT REDIRECTING BACK TO HOMEPAGE
+            window.location.replace("localhost:3000/")
+            alert("Please log in before viewing your Profile");
+            return;
+        }
+
         //decode id token
         await this.createAuthToken();
         console.log("Created token");
@@ -47,9 +56,10 @@ class ViewProfile extends React.Component {
             <div className="card">
                 <h3 className="btn-light">My Profile:</h3>
                 <div className="card-body">
-                    <img className="img-fluid float-left rounded" src={this.state.img_url} height="100" width="100"></img>
+                    <img className="img-fluid float-left rounded" src={this.state.img_url} 
+                    alt="Profile" height="100" width="100"></img>
                      <div className="badge badge-primary">{this.state.firstname + this.state.lastname + "(" + 
-                    (this.state.roleid==1 ? "Admin" : "Reporter") +")"} </div>
+                    (this.state.roleid===1 ? "Admin" : "Reporter") +")"} </div>
                     <button className="btn btn-secondary">Edit Profile</button>
                 </div>
             </div>
