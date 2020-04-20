@@ -29,13 +29,11 @@ class CreateGhost extends React.Component {
     
 
     createGhost(){
-        debugger;
         axios.put('http://localhost:8000/api/private/ghosts/create',
         this.state,
         this.config
         ).then(res => {
             //Once you get the bearer token --> store it in local storage
-            debugger;
             console.log(res)
             }   
         );
@@ -66,6 +64,7 @@ class CreateGhost extends React.Component {
                                 id="ghostName"
                                 name="ghostName"
                                 className="form-control"
+                                placeholder = "Ghost's Name"
                                 onChange = {e => this.handleChangeGhostName(e)}
                                 required/>
                         </div>
@@ -76,6 +75,7 @@ class CreateGhost extends React.Component {
                                 id="ghostBio"
                                 name="ghostBio"
                                 className="form-control"
+                                placeholder="Ghost's Biography"
                                 onChange = {e => this.handleChangeBio(e)}
                                 required/>
                         </div>

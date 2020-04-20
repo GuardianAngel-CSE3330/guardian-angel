@@ -3,14 +3,16 @@ import axios from 'axios';
 import parseJwt from '../parsejwt';
 
 class ReportSighting extends React.Component {
+
     
     months = [0,1,2,3,4,5,6,7,8,9,10,11];
     days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
     years = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020];
     spookienessLevel = [1,2,3,4,5];
+    allGhosts = [];
     state = {
         reporterid: '', 
-        ghostid: '3',
+        ghostid: '',
         month: '',
         year: '',
         day: '',
@@ -42,17 +44,22 @@ class ReportSighting extends React.Component {
         var params = parseJwt(token);
         console.log(JSON.stringify(this.config));
         this.setState({reporterid: params.id});
+        axios.get('http://localhost:8000/api/private/ghosts/all',
+        this.config
+        ).then(res => {
+            //Once you get the bearer token --> store it in local storage
+            console.log(res);
+            }   
+        );
     }
     
 
     createSighting(){
-        debugger;
         axios.put('http://localhost:8000/api/private/sightings/create',
         this.state,
         this.config
         ).then(res => {
             //Once you get the bearer token --> store it in local storage
-            debugger;
             console.log(res)
             }   
         );
@@ -94,6 +101,9 @@ class ReportSighting extends React.Component {
     }
     handleChangeSpookiness(event){
         this.setState({spookiness: event.target.value});
+    }
+    handleChangeGhostID(event){
+        this.setState({ghostid: event.target.value});
     }
 
     render() {
@@ -189,12 +199,26 @@ class ReportSighting extends React.Component {
 
                         <div className="form-group">
                             <label htmlFor="ghostRating">Spookiness Level</label>
+                                <br></br>
                                 <select id="spookieness" name="spookiness"
                                 onChange = {e => this.handleChangeSpookiness(e)}
                                 required>
                                     <option></option>
                                     {
                                     this.spookienessLevel.map((x,i) => <option key = {i}> { x }</option>)
+                                    }
+                                </select>
+                        </div>
+
+                        <div className="form-group">
+                            <label htmlFor="ghostName">Ghost's Name</label>
+                                <br></br>
+                                <select id="ghostName" name="ghostName"
+                                onChange = {e => this.handleChangeGhostID(e)}
+                                required>
+                                    <option></option>
+                                    {
+                                    this.allGhosts.map((x,i) => <option key = {i.ghostid}> { x.name }</option>)
                                     }
                                 </select>
                         </div>
