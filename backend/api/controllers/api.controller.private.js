@@ -170,6 +170,7 @@ function getSightingsByLocation(request, response, next) {
             })
         })
 }
+
 // GET ALL DISTINCT LOCATIONS FROM SIGHTINGS
 function getSightingLocations(request, response, next) {
     console.log(`Received request to get sighting locations`);

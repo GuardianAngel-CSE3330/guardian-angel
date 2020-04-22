@@ -2,6 +2,7 @@ version: "3.3"
 
 services:
   backend-api:
+    build: ./frontend
     image: node:12
     restart: always
     working_dir: /usr/src/app
@@ -15,6 +16,8 @@ services:
       - frontend
 
   frontend-app:
+    tty: true
+    build: ./frontend
     image: node:12
     restart: always
     working_dir: /usr/src/app
