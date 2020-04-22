@@ -129,8 +129,7 @@ class SafeGuide extends Component {
                 </div>
 
 
-                    <div className = "block-example border border-dark m-2">
-                       <h4 className=""></h4>
+                    <div className = "block-example border border-dark m-2 overflow-auto">
                     </div>
                 </div>
     );

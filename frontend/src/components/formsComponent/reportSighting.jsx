@@ -44,11 +44,15 @@ class ReportSighting extends React.Component {
         var params = parseJwt(token);
         console.log(JSON.stringify(this.config));
         this.setState({reporterid: params.id});
-        axios.get('http://localhost:8000/api/private/ghosts/all',
+        await axios.get('http://localhost:8000/api/private/ghosts/all',
         this.config
         ).then(res => {
             //Once you get the bearer token --> store it in local storage
             console.log(res);
+
+            this.allGhosts = [...res.data];
+            console.log("all ghosts");
+            console.log("All ghosts " + this.allGhosts.map((x) => x.ghostid));
             }   
         );
     }
@@ -76,10 +80,17 @@ class ReportSighting extends React.Component {
             spookiness: ''
         }
     }
-    
+    getGhostID(ghostName){
+        this.allGhosts.map((x) => {
+            if(x.name === ghostName){
+                console.log(x.ghostid);
+                return x.ghostid;
+            }
+        })
+    }
     
     handleChangeMonth(event){
-        this.setState({month: event.target.value});
+        this.setState({month: event.target.value-1});
     }
     handleChangeDay(event){
         this.setState({day: event.target.value});
@@ -103,7 +114,12 @@ class ReportSighting extends React.Component {
         this.setState({spookiness: event.target.value});
     }
     handleChangeGhostID(event){
-        this.setState({ghostid: event.target.value});
+        this.allGhosts.map((x) => {
+            if(x.name === event.target.value){
+                this.setState({ghostid: x.ghostid})
+                console.log(x.ghostid);
+            }
+        })
     }
 
     render() {
@@ -218,7 +234,7 @@ class ReportSighting extends React.Component {
                                 required>
                                     <option></option>
                                     {
-                                    this.allGhosts.map((x,i) => <option key = {i.ghostid}> { x.name }</option>)
+                                    this.allGhosts.map((x,i) => <option value={i.ghostid}>{x.name}</option>)
                                     }
                                 </select>
                         </div>

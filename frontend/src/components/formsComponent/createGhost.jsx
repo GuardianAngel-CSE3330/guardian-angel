@@ -53,10 +53,10 @@ class CreateGhost extends React.Component {
 
     render() {
         return <>
-        <div className ="text-center">
+        <div className ="text-center align-middle">
             <div className = "block-example border border-dark m-2">
                     <form className="justify-content-center align-items-center">
-                        <h1 className = "formTitle">Report A Ghost Sighting</h1>
+                        <h1 className = "formTitle">Create a Ghost</h1>
 
                         <div className="form-group">
                             <label htmlFor="ghostName">Ghost Name*</label>

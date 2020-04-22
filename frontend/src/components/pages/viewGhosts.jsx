@@ -1,6 +1,7 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import EditBio from '../formsComponent/editBio.jsx'
 
 class ViewGhosts extends React.Component {
     state = {
@@ -50,11 +51,13 @@ class ViewGhosts extends React.Component {
                             <p className = "card-text">
                                 {x.biography}
                             </p>
-                            <Link to="/viewsightings">
-                                <button className = "btn btn-secondary">
-                                    View Sightings
-                                </button>
-                            </Link>
+                            <div className = "text-right">
+                                <Link to="/editbio">
+                                    <button className = "btn btn-secondary">
+                                        Edit Ghost Biography
+                                    </button>
+                                </Link>
+                            </div>
                         </div>
                     </div>)
                 }
