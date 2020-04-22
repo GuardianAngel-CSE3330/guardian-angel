@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import axios from 'axios';
 
 class SafeGuide extends Component {
 
@@ -42,7 +43,6 @@ class SafeGuide extends Component {
             .then(
                 //object given here will be an array
                 sightings => {
-                    debugger;
                     var allSights = [];
                     sightings.data.forEach(sighting => {
                     if(sighting.location.includes(this.state.searchParams)) {
@@ -69,7 +69,6 @@ class SafeGuide extends Component {
                     var allSights = [];
                     sightings.data.forEach(sighting => {
                         //if it is in title or description, then push it to the
-                        debugger;
                         if ((sighting.description.includes(this.state.searchParams || 
                             sighting.title.includes(this.state.searchParams)))) {
                                 allSights.push(sighting);
