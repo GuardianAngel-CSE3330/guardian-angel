@@ -22,7 +22,7 @@ class ProfileForm extends React.Component {
             password: '',
             firstname: '',
             lastname: '',
-            role: ''
+            roleid: ''
         });
     }
 
@@ -39,7 +39,7 @@ class ProfileForm extends React.Component {
         this.setState({password: event.target.value});
     }
     handleChangeRole(event){
-        this.setState({role: event.target.value});
+        this.setState({roleid: event.target.value});
     }
 
     render() {
@@ -58,6 +58,7 @@ class ProfileForm extends React.Component {
                             id="fname"
                             name="fname"
                             className="form-control"
+                            placeholder = "First Name"
                             onChange = {e => this.handleChangeFirstName(e)}
                             required/>
                     </div>
@@ -68,6 +69,7 @@ class ProfileForm extends React.Component {
                             id="lname"
                             name="lname"
                             className="form-control"
+                            placeholder = "Last Name"
                             onChange = {e => this.handleChangeLastName(e)}
                             required/>
                     </div>
@@ -78,6 +80,7 @@ class ProfileForm extends React.Component {
                             id="email"
                             name="email"
                             className="form-control"
+                            placeholder = "Email Address"
                             onChange = {e => this.handleChangeEmail(e)}
                             required/>
                     </div>
@@ -87,6 +90,7 @@ class ProfileForm extends React.Component {
                         <input type="password"
                             id="password"
                             name="passwrod"
+                            placeholder = "Password"
                             className="form-control"
                             onChange = {e => this.handleChangePassword(e)}
                             required/>
@@ -99,12 +103,9 @@ class ProfileForm extends React.Component {
                         onChange = {e => this.handleChangeRole(e)}
                         required>
                             <option></option>
-                            <option value="author">Author</option>
-                            <option value="exorcist">Exorcist</option>
-                            <option value="general">General</option>
-                            <option value="tormentedSoul">Moderator</option>
-                            <option value="reporter">Reporter</option>
-                            <option value="tormentedSoul">Tormented Soul</option>
+                            <option value="1">Admin</option>
+                            <option value="2">User</option>
+                            <option value="3">Exorcist</option>
                         </select>
                     </div>
 

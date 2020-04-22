@@ -16,6 +16,7 @@ class LoginForm extends React.Component{
             var queryResult = JSON.stringify(res.data);
             var token = JSON.parse(queryResult);
             localStorage.setItem("bearer_token", token.id_token);
+            console.log(token.id_token);
             }
             //https://www.tutorialrepublic.com/faq/how-to-store-javascript-objects-in-html5-localstorage.php
         )
@@ -45,6 +46,7 @@ class LoginForm extends React.Component{
                         <input type = "email" className = "form-control"
                             name = "email" 
                             value={this.state.email}
+                            placeholder = "Email Address"
                             onChange={e => this.handleChangeUser(e)}/>
                     </div>
                     <div className = "form-group">
@@ -52,11 +54,12 @@ class LoginForm extends React.Component{
                         <input type = "password" className = "form-control"
                             name = "password" 
                             value={this.state.password}
+                            placeholder = "Password"
                             onChange={e => this.handleChangePW(e)}/>
                     </div> 
                 </form>
-                <Link to ="/safeguide"><button type="button" className = "btn btn-primary" onClick={e => this.loginWithCredentials()}>Login</button></Link>
-                <Link to="/register"><button className = "btn btn-secondary">Register</button></Link>
+                <Link to = "/safeguide"><button type="button" className = "btn btn-primary" onClick={e => this.loginWithCredentials()}>Login</button></Link>
+               <Link to="/register"><button className = "btn btn-secondary">Register</button></Link>
             </div>
         )
     }
