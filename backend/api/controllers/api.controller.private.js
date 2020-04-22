@@ -16,6 +16,7 @@ router.put('/sightings/create', createSighting);
 router.get('/sightings/date/:month/:year', getSightingsByMonth);
 router.get('/sightings/all', getAllSightings);
 router.get('/sightings/ghost/:ghost', getSightingsByGhost);
+router.get('/sightings/location/:searchterm', getSightingsByLocation);
 router.get('/sightings/locations', getSightingLocations);
 router.delete('/sightings/:id', deleteSightingByID);
 router.patch('/sightings/:id', updateSighting);
@@ -142,6 +143,28 @@ function getSightingsByGhost(request, response, next) {
             }
         })
         .catch( err => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+}
+
+// GET ALL SIGHTINGS THAT FUZZE MATCH A LOCATION
+function getSightingsByLocation(request, response, next) {
+    const searchTerm = request.params.searchterm;
+    console.log(`Received a request to get sightings with location ${searchTerm}`);
+    dbService.getSightingsByLocation(searchTerm)
+        .then( (results) => {
+            if (results.length == 0) {
+                response.status(404).json({
+                    message: `No sightings found with a location matching ${searchTerm}`
+                })
+            }
+            else {
+                response.send(JSON.stringify(results));
+            }
+        })
+        .catch (err => {
             response.status(500).json({
                 message: `Error: ${err}`
             })
