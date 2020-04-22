@@ -33,6 +33,16 @@ function Header() {
                                 Create Ghost
                             </li>
                         </Link>
+                        <Link style={navStyle} to="/viewghosts">
+                            <li className = "nav-item active mx-2 ">
+                                View Ghosts
+                            </li>
+                        </Link>
+                        <Link style={navStyle} to="/viewsightings">
+                            <li className = "nav-item active mx-2 ">
+                                View Sightings
+                            </li>
+                        </Link>
                     </ul>
                 </div>
                 

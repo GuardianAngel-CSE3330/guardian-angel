@@ -11,7 +11,7 @@ class ViewProfile extends React.Component {
     }
 
     state = {
-
+        profile: []
     }
 
     async createAuthToken() {
@@ -21,7 +21,8 @@ class ViewProfile extends React.Component {
     }
 
     async componentDidMount() {
-        if (localStorage.getItem('bearer_token')) {
+        
+        if (localStorage.getItem('bearer_token') != null) {
             await this.createAuthToken();
         } else {
             //WHY IS THIS NOT REDIRECTING BACK TO HOMEPAGE
@@ -29,9 +30,9 @@ class ViewProfile extends React.Component {
             alert("Please log in before viewing your Profile");
             return;
         }
+        
 
         //decode id token
-        await this.createAuthToken();
         console.log("Created token");
         var token = this.config.headers.Authorization.substring(7); //substring 7 to remove "Bearer " from token
         //get details from decoding id token
@@ -40,7 +41,7 @@ class ViewProfile extends React.Component {
         await axios.get(`http://localhost:8000/api/private/users/${params.id}`, this.config)
         .then((res) => {
             console.log(res);
-            this.setState(res.data);
+            this.setState({profile: res.data});
         })
         .catch((e) => {
             alert(e + ": Error, you don't have a profile yet!")
@@ -56,11 +57,16 @@ class ViewProfile extends React.Component {
             <div className="card">
                 <h3 className="btn-light">My Profile:</h3>
                 <div className="card-body">
-                    <img className="img-fluid float-left rounded" src={this.state.img_url} 
+                    <img className="img-fluid float-left rounded mr-3" src={this.state.profile.img_url} 
                     alt="Profile" height="100" width="100"></img>
-                     <div className="badge badge-primary">{this.state.firstname + this.state.lastname + "(" + 
-                    (this.state.roleid===1 ? "Admin" : "Reporter") +")"} </div>
-                    <button className="btn btn-secondary">Edit Profile</button>
+                    <h4>Name: {this.state.profile.firstname + " " + this.state.profile.lastname} </h4>
+                    <div className="badge badge-primary">
+                        Role:
+                         {" (" +(this.state.roleid===1 ? "Admin" : "Reporter") +")"}
+                    </div>
+                    <div className = "text-right">
+                        <button className="btn btn-secondary">Edit Profile</button>
+                    </div>
                 </div>
             </div>
             <div className="clearfix"></div>

@@ -40,10 +40,10 @@ class ViewGhosts extends React.Component {
     render() {
     
         return <>
-                <h3 className="text-center">All Ghosts</h3>
+                <h3 className="text-center mt-2">All Ghosts</h3>
                 {
                     this.state.allGhosts.map((x,i) => 
-                    <div className = "card">
+                    <div className = "card m-3">
                         <div className = "card-body">
                             <h5 className = "card-title">
                                 {x.name}
