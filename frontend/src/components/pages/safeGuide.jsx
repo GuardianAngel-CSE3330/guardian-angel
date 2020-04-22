@@ -12,17 +12,22 @@ class SafeGuide extends Component {
     state = {
         searchParams: '',
         authTokenCreated: false,
-        returnedSightings: []
+        returnedSightings: [],
+        hasRenderedContent: false
     }
 
 
 
     async handleButtonPress(){
+        debugger;
+        if (this.state.hasRenderedContent === true) {
+            this.setState({hasRenderedContent: false, returnedSightings: []})
+        }
         //If the user has logged in but hasn't created the token yet
         if (!this.state.authTokenCreated) {
             await this.createAuthToken();
         //If the user has not logged in yet
-        } else if (this.config.headers.Authorization.localeCompare('Bearer ')) {
+        } else if (this.config.headers.Authorization.localeCompare('Bearer ') == 0) {
             alert("Please log in before searching the database!");
             return;
         }
@@ -31,11 +36,13 @@ class SafeGuide extends Component {
 
         if (!this.state.type) {
             //Search parameter (ghost/location/sighting) wasn't specified
-            alert("Please pick a search parameter!")
+            alert("Please pick a search parameter!");
+            return;
         }
         else if (!this.state.searchParams) {
             //No text was entered in the search box
-            alert("Please enter text before searching!")
+            alert("Please enter text before searching!");
+            return;
         }
         else if (this.state.type === 'location') {
             //get all sightings, then search through those for a given location
@@ -56,7 +63,15 @@ class SafeGuide extends Component {
         else if (this.state.type === 'ghost') {
             //fetch all sightings of this particular ghost
             await axios.get(`http://localhost:8000/api/private/sightings/ghost/${this.state.searchParams}`, this.config)
-            .then()
+            .then(
+                sightings => {
+                    var allSights = [];
+                    sightings.data.forEach(sighting => {
+                        allSights.push(sighting);
+                    })
+                this.setState({returnedSightings: allSights});
+                }
+            )
             .catch(err =>
                 alert(err))
         }
@@ -78,6 +93,8 @@ class SafeGuide extends Component {
                 }
             )
         }
+
+        this.setState({hasRenderedContent: true});
     }
 
 
