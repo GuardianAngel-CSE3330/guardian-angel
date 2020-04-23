@@ -11,6 +11,7 @@ const dbService = require('../services/db.service');              // PROVIDE ACC
 // DEFINE ROUTES
 router.get('/users/all', getAllUsers);
 router.get('/users/:id', getOneUser);
+router.patch('/users/:id', updateUser)
 
 router.put('/sightings/create', createSighting);
 router.get('/sightings/date/:month/:year', getSightingsByMonth);
@@ -59,6 +60,24 @@ function getOneUser(request, response, next) {
             }
         })
         .catch( (err) => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+}
+
+function updateUser(request, response, next) {
+    let id = parseInt(request.params.id);
+    let diff = request.body;
+
+    console.log(`Received request to update a user with id ${id}`);
+    dbService.updateUser(diff, id) 
+        .then(results => {
+            response.status(200).json({
+                message: 'OK'
+            })
+        })
+        .catch( err => {
             response.status(500).json({
                 message: `Error: ${err}`
             })
