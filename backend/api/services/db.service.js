@@ -294,6 +294,40 @@ function createGhost(name, bio) {
     })
 }
 
+// UPDATE A GHOST
+function updateGhost(diff, id) {
+    return new Promise( (resolve, reject) => {
+        // ITERATE ACROSS KEY'VALUE PARIS IN THE DIFF
+        let query = `UPDATE ghosts SET `;
+        for (let key in diff) {
+
+            if (utilService.isNumeric(diff[key])) {
+                let v = parseInt(diff[key]);
+                query += `${key} = ${v}, `;
+            }
+            else {
+                query += `${key} = '${diff[key]}', `;
+            }
+        }
+
+        // REMOVE THE TRAILING COMMA AND SPACE
+        query = query.replace(/,\s*$/, "");
+
+        // ADD THE WHERE CLAUSE
+        query += ` WHERE ghostid = ${id}`;
+
+        // MAKE THE QUERY
+        connection().query(query, (error, results, fields) => {
+            if (error) {
+                reject (error);
+            }
+            else {
+                resolve(results);
+            }
+        })
+    })
+}
+
 // GET A GHOST BY NAME
 function getGhostByName(name) {
     const q = `SELECT * FROM ghosts
@@ -382,6 +416,7 @@ module.exports =  {
     deleteSightingByID,
     updateSighting,
     createGhost,
+    updateGhost,
     getGhostByName,
     getGhostByID,
     getAllGhosts,

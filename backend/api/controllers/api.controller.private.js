@@ -26,6 +26,7 @@ router.get('/ghosts/all', getAllGhosts);
 router.get('/ghosts/name/:name', getGhostByName);
 router.get('/ghosts/id/:id', getGhostByID);
 router.delete('/ghosts/id/:id', deleteGhostByID);
+router.patch('/ghosts/id/:id', updateGhost);
 
 ////////////////////////////////////////////////////
 // DEFINE FUNCTIONS FOR ROUTES
@@ -273,6 +274,23 @@ function createGhost(request, response, next) {
             }
         })
     
+}
+
+function updateGhost(request, response, next) {
+    let id = parseInt(request.params.id);
+    let diff = request.body;
+    console.log(`Received request to update a ghost with id ${id}`);
+    dbService.updateGhost(diff, id)
+        .then(results => {
+            response.status(200).json({
+                message: 'OK'
+            })
+        })
+        .catch( err => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
 }
 
 // GET ALL GHOSTS
