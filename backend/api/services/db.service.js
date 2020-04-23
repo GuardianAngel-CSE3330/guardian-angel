@@ -205,7 +205,12 @@ function getSightingsByDate(month, year) {
 // GET SIGHTINGS BY GHOST
 function getSightingsByGhost(ghost) {
     
-    const q = `SELECT * 
+    const q = `SELECT sightings.*,
+                        ghosts.name as ghostname, 
+                        ghosts.biography as ghostbio, 
+                        users.email as reporteremail,
+                        users.firstname as reporterfirstname,
+                        users.lastname as reporterlastname
                 FROM sightings
                 LEFT JOIN ghosts
                     ON sightings.ghostid = ghosts.ghostid 
@@ -241,7 +246,12 @@ function getSightingLocations() {
 
 // GET SIGHTINGS BY FUZZY LOCATION MATCH
 function getSightingsByLocation(locSearchString) {
-    const q = `SELECT *
+    const q = `SELECT sightings.*,
+                        ghosts.name as ghostname, 
+                        ghosts.biography as ghostbio, 
+                        users.email as reporteremail,
+                        users.firstname as reporterfirstname,
+                        users.lastname as reporterlastname
                 FROM sightings 
                 LEFT JOIN ghosts
                     ON sightings.ghostid = ghosts.ghostid
