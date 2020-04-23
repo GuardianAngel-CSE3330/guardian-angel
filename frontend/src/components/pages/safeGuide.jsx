@@ -100,7 +100,6 @@ class SafeGuide extends Component {
 
     async createAuthToken() {
         var profileToken = await localStorage.getItem('bearer_token');
-        console.log('|' + profileToken + '|');
         this.config.headers.Authorization = this.config.headers.Authorization.concat(profileToken);
         this.setState({authTokenCreated: true});
     }

@@ -13,7 +13,7 @@ function Header() {
                 
                 <div className = "collapse navbar-collapse" id="navbarSupportedContent">
                     <ul className = "navbar-nav ml-auto ">
-                        <Link style={navStyle} to="/safeguide">
+                        <Link style={navStyle} to="/">
                             <li className = "nav-item active mx-2">
                                 Home
                             </li>
