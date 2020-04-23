@@ -1,6 +1,7 @@
 import React from 'react';
 import profile from '../images/profile.png';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
 class ProfileForm extends React.Component {
     state = {
         email: '',
@@ -24,7 +25,11 @@ class ProfileForm extends React.Component {
             lastname: '',
             roleid: ''
         });
+        var frm = document.getElementsByName('register-form')[0];
+        frm.reset();
+        return false;
     }
+
 
     handleChangeFirstName(event){
         this.setState({firstname: event.target.value});
@@ -45,7 +50,7 @@ class ProfileForm extends React.Component {
     render() {
         return <>
             <div className = "block-example border border-dark text-center m-2">
-                <form className="justify-content-center align-items-center ">
+                <form name = "register-form"className="justify-content-center align-items-center ">
                     <h1 className = "formTitle">User Profile</h1>
 
                     <div className = "defaultImage">
@@ -111,11 +116,13 @@ class ProfileForm extends React.Component {
 
                     
                 </form>
+                <Link to="/">
                 <button type = "submit" 
                     className = "btn btn-primary"
                     onClick={e => this.createProfile()}>
                         Create Profile
                 </button>
+                </Link>
             </div>
         </>;
     }
