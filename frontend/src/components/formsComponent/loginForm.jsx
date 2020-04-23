@@ -25,6 +25,9 @@ class LoginForm extends React.Component{
             alert("Error logging in. Please try again.")
         })
         setTimeout(this.setState({email: '', password: ''}), 1000);
+        var frm = document.getElementsByName('login-form')[0];
+        frm.reset();
+        return false;
  
     }
 
@@ -39,7 +42,7 @@ class LoginForm extends React.Component{
     render(){
         return(
             <div className = "block-example border border-dark text-center">
-                <form>
+                <form name = "login-form">
                     <h2 className ="signUp">Login</h2>
                     <div className = "form-group">
                         <label htmlFor = "email">Email Address:</label>
