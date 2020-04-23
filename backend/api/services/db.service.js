@@ -175,6 +175,8 @@ function getSightingsByGhost(ghost) {
                 FROM sightings
                 LEFT JOIN ghosts
                     ON sightings.ghostid = ghosts.ghostid 
+                LEFT JOIN users
+                    ON sightings.reporterid = users.id
                 WHERE ghosts.name LIKE '%${ghost}%'`;
     
     return new Promise( (resolve, reject) => {
@@ -198,6 +200,28 @@ function getSightingLocations() {
             }
             else {
                 resolve(results); 
+            }
+        })
+    })
+}
+
+// GET SIGHTINGS BY FUZZY LOCATION MATCH
+function getSightingsByLocation(locSearchString) {
+    const q = `SELECT *
+                FROM sightings 
+                LEFT JOIN ghosts
+                    ON sightings.ghostid = ghosts.ghostid
+                LEFT JOIN users
+                    on sightings.reporterid = users.id
+                WHERE sightings.location LIKE '%${locSearchString}%'`;
+    
+    return new Promise ( (resolve, reject) => {
+        connection().query(q, (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve(results);
             }
         })
     })
@@ -354,6 +378,7 @@ module.exports =  {
     getSightingsByDate,
     getSightingsByGhost,
     getSightingLocations,
+    getSightingsByLocation,
     deleteSightingByID,
     updateSighting,
     createGhost,
