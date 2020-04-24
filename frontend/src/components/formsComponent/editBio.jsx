@@ -46,8 +46,8 @@ class EditBio extends React.Component {
     }
     UpdateBio(){
         let obj= {};
-        //...fill your object like this for example
         obj["biography"] = this.state.biography;
+        
         axios.patch(`http://localhost:8000/api/private/ghosts/id/${this.state.ghostid}`, 
         obj,
         this.config,)
