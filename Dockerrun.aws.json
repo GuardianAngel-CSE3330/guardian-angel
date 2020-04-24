@@ -23,7 +23,7 @@
             ],
             "essential": true,
             "image": "node:12",
-            "memory": 250,
+            "memory": 400,
             "mountPoints": [
                 {
                     "containerPath": "/usr/src/app",
@@ -46,7 +46,7 @@
             ],
             "essential": true,
             "image": "node:12",
-            "memory": 350,
+            "memory": 400,
             "mountPoints": [
                 {
                     "containerPath": "/usr/src/app",

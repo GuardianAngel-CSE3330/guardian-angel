@@ -98,6 +98,40 @@ function createUser(user /*user object*/) {
     })
 }
 
+// UPDATE A USER
+function updateUser(diff, id) {
+    return new Promise ( (resolve, reject) => {
+        let query = `UPDATE users SET `;
+        for (let key in diff) {
+            
+            // IF THE VALUE IS NUMERIC, DON'T USE QUOTES, OTHERWISE, DO USE THEM
+            if (utilService.isNumeric(diff[key])) {
+                let v = parseInt(diff[key]);
+                query += `${key} = ${v}, `;
+            }
+            else {
+                query += `${key} = '${diff[key]}', `;
+            }
+        }
+
+        // REMOVE THE TRAINING COMMA AND SPACE
+        query = query.replace(/,\s*$/, "");
+
+        // ADD THE WHERE CLAUSE
+        query += ` WHERE id = ${id}`;
+
+        // MAKE THE QUERY
+        connection().query(query, (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else {
+                resolve(results);
+            }
+        })
+    })
+}
+
 // CREATE A SIGHTING
 function createSighting(sighting) {
     return new Promise((resolve, reject) => {
@@ -171,7 +205,12 @@ function getSightingsByDate(month, year) {
 // GET SIGHTINGS BY GHOST
 function getSightingsByGhost(ghost) {
     
-    const q = `SELECT * 
+    const q = `SELECT sightings.*,
+                        ghosts.name as ghostname, 
+                        ghosts.biography as ghostbio, 
+                        users.email as reporteremail,
+                        users.firstname as reporterfirstname,
+                        users.lastname as reporterlastname
                 FROM sightings
                 LEFT JOIN ghosts
                     ON sightings.ghostid = ghosts.ghostid 
@@ -207,7 +246,12 @@ function getSightingLocations() {
 
 // GET SIGHTINGS BY FUZZY LOCATION MATCH
 function getSightingsByLocation(locSearchString) {
-    const q = `SELECT *
+    const q = `SELECT sightings.*,
+                        ghosts.name as ghostname, 
+                        ghosts.biography as ghostbio, 
+                        users.email as reporteremail,
+                        users.firstname as reporterfirstname,
+                        users.lastname as reporterlastname
                 FROM sightings 
                 LEFT JOIN ghosts
                     ON sightings.ghostid = ghosts.ghostid
@@ -294,6 +338,40 @@ function createGhost(name, bio) {
     })
 }
 
+// UPDATE A GHOST
+function updateGhost(diff, id) {
+    return new Promise( (resolve, reject) => {
+        // ITERATE ACROSS KEY'VALUE PARIS IN THE DIFF
+        let query = `UPDATE ghosts SET `;
+        for (let key in diff) {
+
+            if (utilService.isNumeric(diff[key])) {
+                let v = parseInt(diff[key]);
+                query += `${key} = ${v}, `;
+            }
+            else {
+                query += `${key} = '${diff[key]}', `;
+            }
+        }
+
+        // REMOVE THE TRAILING COMMA AND SPACE
+        query = query.replace(/,\s*$/, "");
+
+        // ADD THE WHERE CLAUSE
+        query += ` WHERE ghostid = ${id}`;
+
+        // MAKE THE QUERY
+        connection().query(query, (error, results, fields) => {
+            if (error) {
+                reject (error);
+            }
+            else {
+                resolve(results);
+            }
+        })
+    })
+}
+
 // GET A GHOST BY NAME
 function getGhostByName(name) {
     const q = `SELECT * FROM ghosts
@@ -371,6 +449,7 @@ module.exports =  {
     query,
     getUser,
     createUser,
+    updateUser,
     getAllUsers,
     getUserById,
     getAllSightings,
@@ -382,6 +461,7 @@ module.exports =  {
     deleteSightingByID,
     updateSighting,
     createGhost,
+    updateGhost,
     getGhostByName,
     getGhostByID,
     getAllGhosts,
