@@ -19,7 +19,6 @@ class SafeGuide extends React.Component {
 
 
     async handleButtonPress(){
-        debugger;
         if (this.state.hasRenderedContent === true) {
             this.setState({hasRenderedContent: false, returnedSightings: []})
         }
@@ -133,7 +132,7 @@ class SafeGuide extends React.Component {
                         {this.state.returnedSightings.map(sighting =>
                             <div className = "card m-3">
                             <h5 class="card-title text-center">{sighting.title}</h5>
-                             <h6 class="card-subtitle text-muted text-center">{sighting.ghostname}: {sighting.sighting}</h6>
+                             <h6 class="card-subtitle text-muted text-center">{sighting.ghostname} {sighting.sighting}</h6>
                                 <div className = "card-body">
                                     <img class="img-fluid float-left rounded mr-3" src= {sighting.imageurl} 
                                     alt="Card image cap" height="150" width="150"></img>
