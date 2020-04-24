@@ -61,6 +61,7 @@ class LoginForm extends React.Component{
                             onChange={e => this.handleChangePW(e)}/>
                     </div> 
                 </form>
+                {/* How to make this reload the page so that the login form is hidden?*/}
                 <Link to = "/"><button type="button" className = "btn btn-primary" onClick={e => this.loginWithCredentials()}>Login</button></Link>
                <Link to="/register"><button className = "btn btn-secondary">Register</button></Link>
             </div>

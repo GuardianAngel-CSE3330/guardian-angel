@@ -52,7 +52,7 @@ class ViewSightings extends React.Component {
                                     <p class="card-text">Sighting Description: {x.description}</p>
                                     <p class="card-text">Sighting Date: {x.month}/{x.day}/{x.year}</p>
                                     <p class="card-text">Spookiness Level: {x.spookiness}</p>
-                                    <p class="card-tex text-right">Reported by: {x.reporterfirstname} {x.reporterlastname}</p>
+                                    <p class="card-tex text-right">Reported by: {x.reporterfirstname}  {x.reporterlastname}</p>
                                 </div>
                         </div>
                     </div>)

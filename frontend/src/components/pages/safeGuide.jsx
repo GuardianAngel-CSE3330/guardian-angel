@@ -1,7 +1,7 @@
-import React, { Component } from 'react';
+import React from 'react';
 import axios from 'axios';
 
-class SafeGuide extends Component {
+class SafeGuide extends React.Component {
 
     config = {
         headers: {
@@ -128,15 +128,27 @@ class SafeGuide extends Component {
                 </div>
 
 
-                    <div className = "block-example border border-dark m-2 overflow-auto">
-                    </div>
+                <div className = "block-example border border-dark m-2 overflow-auto">
+
+                        {this.state.returnedSightings.map(sighting =>
+                            <div className = "card m-3">
+                            <h5 class="card-title text-center">{sighting.title}</h5>
+                             <h6 class="card-subtitle text-muted text-center">{sighting.ghostname}: {sighting.sighting}</h6>
+                                <div className = "card-body">
+                                    <img class="img-fluid float-left rounded mr-3" src= {sighting.imageurl} 
+                                    alt="Card image cap" height="150" width="150"></img>
+                                        <div class="card-body">
+                                            <p class="card-text">Sighting Description: {sighting.description}</p>
+                                            <p class="card-text">Sighting Date: {sighting.month}/{sighting.day}/{sighting.year}</p>
+                                            <p class="card-text">Spookiness Level: {sighting.spookiness}</p>
+                                            <p class="card-tex text-right">Reported by: {sighting.reporterfirstname} {sighting.reporterlastname}</p>
+                                        </div>
+                                </div>
+                            </div>)}
                 </div>
-    );
+    </div>)
     }
 
-    componentDidUpdate() {
-        //reset state here after the stuff is rendered
-    }
 }
 
 export default SafeGuide;
