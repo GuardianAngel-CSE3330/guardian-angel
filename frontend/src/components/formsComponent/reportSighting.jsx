@@ -65,8 +65,11 @@ class ReportSighting extends React.Component {
         ).then(res => {
             //Once you get the bearer token --> store it in local storage
             console.log(res)
+            alert("Sighting Submitted!");
             }   
-        );
+        ).catch((e) => {
+            alert(e)
+        });
         var frm = document.getElementsByName('sighting-form')[0];
         frm.reset();
         this.setStatestate = {
@@ -124,6 +127,7 @@ class ReportSighting extends React.Component {
             }
         })
     }
+
 
     render() {
         return <>
@@ -244,9 +248,10 @@ class ReportSighting extends React.Component {
                     </form>
                     <button type = "submit" 
                         className = "btn btn-primary"
-                        onClick={e => this.createSighting()}>
+                        onClick= {e => this.createSighting()}>
                             Submit Sighting
                     </button>
+
             </div>
         </div>
         </>;

@@ -35,8 +35,11 @@ class CreateGhost extends React.Component {
         ).then(res => {
             //Once you get the bearer token --> store it in local storage
             console.log(res)
+            alert("Ghost Created!");
             }   
-        );
+        ).catch((e) => {
+            console.log(e);
+        });
         this.setState = {
             name: '', 
             biography: ''

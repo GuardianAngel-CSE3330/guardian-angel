@@ -15,6 +15,7 @@ import ViewLocation from './components/pages/viewLocation';
 import ViewGhosts from './components/pages/viewGhosts.jsx'
 import ViewSightings from './components/pages/viewSightings.jsx'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import EditBio from './components/formsComponent/editBio';
 
 class App extends Component {
   render(){
@@ -44,6 +45,8 @@ class App extends Component {
               <Route path = '/viewghosts' component = {ViewGhosts} />
 
               <Route path = '/viewsightings' component = {ViewSightings} />
+
+              <Route path = '/editghostbio/:id' component = {EditBio} />
                
             </Switch>
             
