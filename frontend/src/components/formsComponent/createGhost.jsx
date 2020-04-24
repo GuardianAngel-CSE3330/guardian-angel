@@ -41,6 +41,9 @@ class CreateGhost extends React.Component {
             name: '', 
             biography: ''
         }
+        var frm = document.getElementsByName('ghost-form')[0];
+        frm.reset();
+        return false;
     }
     
     
@@ -55,7 +58,7 @@ class CreateGhost extends React.Component {
         return <>
         <div className ="text-center align-middle">
             <div className = "block-example border border-dark m-2">
-                    <form className="justify-content-center align-items-center">
+                    <form name="ghost-form"className="justify-content-center align-items-center">
                         <h1 className = "formTitle">Create a Ghost</h1>
 
                         <div className="form-group">

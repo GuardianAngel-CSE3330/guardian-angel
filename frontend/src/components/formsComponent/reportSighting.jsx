@@ -67,6 +67,8 @@ class ReportSighting extends React.Component {
             console.log(res)
             }   
         );
+        var frm = document.getElementsByName('sighting-form')[0];
+        frm.reset();
         this.setStatestate = {
             reporterid: '', 
             ghostid: '',
@@ -79,6 +81,7 @@ class ReportSighting extends React.Component {
             imageurl: '',
             spookiness: ''
         }
+        return false;
     }
     getGhostID(ghostName){
         this.allGhosts.map((x) => {
@@ -126,7 +129,7 @@ class ReportSighting extends React.Component {
         return <>
         <div className ="text-center">
             <div className = "block-example border border-dark m-2">
-                    <form className="justify-content-center align-items-center">
+                    <form name ="sighting-form" className="justify-content-center align-items-center">
                         <h1 className = "formTitle">Report A Ghost Sighting</h1>
 
                         <div className="form-group">
