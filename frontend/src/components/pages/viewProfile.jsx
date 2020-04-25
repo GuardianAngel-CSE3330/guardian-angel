@@ -1,6 +1,9 @@
 import React from 'react';
 import parseJwt from '../parsejwt';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import MySightings from '../pages/mySightings.jsx';
+
 
 class ViewProfile extends React.Component {
 
@@ -65,15 +68,17 @@ class ViewProfile extends React.Component {
                          {" (" +(this.state.roleid===1 ? "Admin" : "Reporter") +")"}
                     </div>
                     <div className = "text-right">
-                        <button className="btn btn-secondary">Edit Profile</button>
+                        <Link className = "btn btn-secondary" to = {'/editprofile/' + this.state.profile.id }> Edit Profile</Link>
                     </div>
                 </div>
             </div>
             <div className="clearfix"></div>
             <div className="card-footer"></div>
+            <div>
+
+            </div>
 
         </div>
-        {/*edit button --> editprofile view */}
         </>
 
     }

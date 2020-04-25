@@ -28,7 +28,7 @@ class App extends Component {
             <Switch>
               <Route path="/" exact component={Home} />
 
-              <Route path="/editprofile" component={EditProfileForm} />
+              <Route path="/editprofile/:id" component={EditProfileForm} />
 
               <Route path="/reportsighting" component={ReportSighting} />
 
