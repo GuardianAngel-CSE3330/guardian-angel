@@ -105,23 +105,23 @@ class SafeGuide extends React.Component {
 
     render(){
         return (
-            <div>
+            <div className = "home text-center">
                 <div className = "block-example border border-dark m-2">
                         {/* Capture text/parameter that is given from user*/}
-                    <input type="text" placeholder="Search.." value={this.state.searchParams}
+                    <input type="text" placeholder="Search.." value={this.state.searchParams} className = "ml-2 mt-2"
                     onChange={e => this.setState({searchParams: e.target.value})}></input>
                     <hr></hr>
-                    <input type="radio" id="locSearch" 
+                    <input className = "ml-2"type="radio" id="locSearch" 
                     name="searchType" value="locSearch" onClick={() => this.setState({type: 'location'})}></input>
-                        <label htmlFor="locSearch">By Location:  </label>
+                        <label htmlFor="locSearch" className = "ml-2 mr-2">By Location:  </label>
 
                     <input type="radio" id="ghoSearch" 
                     name="searchType" value="ghoSearch" onClick={() => this.setState({type: 'ghost'})}></input>
-                        <label htmlFor="locSearch">By Ghost:  </label>
+                        <label htmlFor="locSearch" className = "ml-2 mr-2">By Ghost:  </label>
 
                     <input type="radio" id="sigSearch" 
                     name="searchType" value="sigSearch" onClick={() => this.setState({type: 'sighting'})}></input>
-                        <label htmlFor="sigSearch">By Sighting:  </label>
+                        <label htmlFor="sigSearch" className = "ml-2 mr-2">By Sighting:  </label>
                     <button type="button" className="btn btn-primary" 
                     onClick={() => this.handleButtonPress()}>Search the Database</button>
                 </div>
@@ -129,18 +129,19 @@ class SafeGuide extends React.Component {
 
                 <div className = "block-example border border-dark m-2 overflow-auto">
 
-                        {this.state.returnedSightings.map(sighting =>
-                            <div className = "card m-3">
-                            <h5 class="card-title text-center">{sighting.title}</h5>
-                             <h6 class="card-subtitle text-muted text-center">{sighting.ghostname} {sighting.sighting}</h6>
+                        {this.state.returnedSightings.map((sighting,i) =>
+                            <div className = "card m-3" key = {i}>
+                            <h5 className="card-title text-center">{sighting.title}</h5>
+                             <h6 className="card-subtitle text-muted text-center">{sighting.ghostname} {sighting.sighting}</h6>
                                 <div className = "card-body">
-                                    <img class="img-fluid float-left rounded mr-3" src= {sighting.imageurl} 
+                                    <img className="img-fluid float-left rounded mt-4 mr-3" src= {sighting.imageurl} 
                                     alt="Card image cap" height="150" width="150"></img>
-                                        <div class="card-body">
-                                            <p class="card-text">Sighting Description: {sighting.description}</p>
-                                            <p class="card-text">Sighting Date: {sighting.month}/{sighting.day}/{sighting.year}</p>
-                                            <p class="card-text">Spookiness Level: {sighting.spookiness}</p>
-                                            <p class="card-tex text-right">Reported by: {sighting.reporterfirstname} {sighting.reporterlastname}</p>
+                                        <div className="card-body">
+                                            <p className="card-text">Sighting Description: {sighting.description}</p>
+                                            <p className="card-text">Sighting Location: {sighting.location}</p>
+                                            <p className="card-text">Sighting Date: {sighting.month}/{sighting.day}/{sighting.year}</p>
+                                            <p className="card-text">Spookiness Level: {sighting.spookiness}</p>
+                                            <p className="card-text text-right">Reported by: {sighting.reporterfirstname} {sighting.reporterlastname}</p>
                                         </div>
                                 </div>
                             </div>)}

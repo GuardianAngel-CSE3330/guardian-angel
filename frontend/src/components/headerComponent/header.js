@@ -5,6 +5,26 @@ function Header() {
     const navStyle = {
         color: 'white'
     }
+    if(!("bearer_token" in localStorage)){
+        return (
+            <nav className = "navbar navbar-expand-lg navbar-light bg-secondary">
+                <div className = "navbar-brand">
+                    <img src = {ghostLogo} width="40" height="40" className="d-flex align-items-center" alt=""/>
+                </div>
+                
+                <div className = "collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul className = "navbar-nav ml-auto ">
+                        <Link style={navStyle} to="/">
+                            <li className = "nav-item active mx-2">
+                                Home
+                            </li>
+                        </Link>
+                    </ul>
+                </div>
+                
+            </nav>
+    )
+    } else{
         return (
             <nav className = "navbar navbar-expand-lg navbar-light bg-secondary">
                 <div className = "navbar-brand">
@@ -47,7 +67,8 @@ function Header() {
                 </div>
                 
             </nav>
-    );
+    )
+    };
     
 }
 

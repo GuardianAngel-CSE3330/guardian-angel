@@ -43,19 +43,21 @@ class ViewSightings extends React.Component {
                 <h3 className="text-center mt-2">All Sightings</h3>
                 {
                     this.state.allGhosts.map((x,i) => 
-                    <div className = "card m-3">
-                    <h5 class="card-title text-center">{x.title}</h5>
-                     <h6 class="card-subtitle text-muted text-center">{x.ghostname}: {x.ghostbio}</h6>
-                        <div className = "card-body">
-                            <img class="img-fluid float-left rounded mr-3" src= {x.imageurl} alt="Card image cap" height="150" width="150"></img>
-                                <div class="card-body">
-                                    <p class="card-text">Sighting Description: {x.description}</p>
-                                    <p class="card-text">Sighting Date: {x.month}/{x.day}/{x.year}</p>
-                                    <p class="card-text">Spookiness Level: {x.spookiness}</p>
-                                    <p class="card-tex text-right">Reported by: {x.reporterfirstname}  {x.reporterlastname}</p>
+                    <div key = {i} className = "card m-3">
+                        <h5 className="card-title text-center">{x.title}</h5>
+                        <h6 className="card-subtitle text-muted text-center">{x.ghostname}: {x.ghostbio}</h6>
+                            <div className = "card-body">
+                                <img className="img-fluid float-left rounded mt-4 mr-3" src= {x.imageurl} alt="Card image cap" height="150" width="150"></img>
+                                <div className="card-body d-block">
+                                    <p className="card-text">Sighting Description: {x.description}</p>
+                                    <p className="card-text">Sighting Location: {x.location}</p>
+                                    <p className="card-text">Sighting Date: {x.month}/{x.day}/{x.year}</p>
+                                    <p className="card-text">Spookiness Level: {x.spookiness}</p>
+                                    <p className="card-text text-right">Reported by: {x.reporterfirstname}  {x.reporterlastname}</p>
                                 </div>
-                        </div>
-                    </div>)
+                            </div>
+                    </div>
+                    )
                 }
         </>
 

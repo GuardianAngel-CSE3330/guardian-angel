@@ -33,21 +33,10 @@ class Home extends React.Component {
     } else {
         return (
             <div className="home text-center">   
-            <div className = "container">
-                <div className = "row">
-                    <div className = "col-8">
-                        <SafeGuide />
-                    </div>
-
-                    <div className = "col-3 mt-2 card">
-                        <h2 className="card-title">Login:</h2>
-                        <div className="card-body border-primary">Already Logged in!</div>
-                        
-                    </div>
+                <div className = "container">
+                    <SafeGuide />
                 </div>
             </div>
-
-          </div>
         )
     };
   }

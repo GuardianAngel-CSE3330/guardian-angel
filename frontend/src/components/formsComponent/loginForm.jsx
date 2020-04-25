@@ -17,6 +17,7 @@ class LoginForm extends React.Component{
             var token = JSON.parse(queryResult);
             localStorage.setItem("bearer_token", token.id_token);
             console.log(token.id_token);
+            window.location.replace("http://localhost:3000/safeguide");
             }
             //https://www.tutorialrepublic.com/faq/how-to-store-javascript-objects-in-html5-localstorage.php
         )
