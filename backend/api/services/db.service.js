@@ -270,6 +270,21 @@ function getSightingsByLocation(locSearchString) {
         })
     })
 }
+
+function getSightingsByReporterID(reporterID) {
+    const q = `SELECT * from sightings where sightings.reporterid = ${reporterID}`;
+
+    return new Promise( (resolve, reject) => {
+        connection().query(q, (error, results, fields) => {
+            if (error) {
+                reject (error);
+            }
+            else {
+                resolve(results);
+            }
+        })
+    })
+}
 // DELETE A SIGHTING
 function deleteSightingByID(sightingID) {
     return new Promise ( (resolve, reject) => {
@@ -458,6 +473,7 @@ module.exports =  {
     getSightingsByGhost,
     getSightingLocations,
     getSightingsByLocation,
+    getSightingsByReporterID,
     deleteSightingByID,
     updateSighting,
     createGhost,

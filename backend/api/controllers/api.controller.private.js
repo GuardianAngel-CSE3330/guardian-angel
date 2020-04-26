@@ -18,6 +18,7 @@ router.get('/sightings/date/:month/:year', getSightingsByMonth);
 router.get('/sightings/all', getAllSightings);
 router.get('/sightings/ghost/:ghost', getSightingsByGhost);
 router.get('/sightings/location/:searchterm', getSightingsByLocation);
+router.get('/sightings/reporter/:id', getSightingsByReporterID);
 router.get('/sightings/locations', getSightingLocations);
 router.delete('/sightings/:id', deleteSightingByID);
 router.patch('/sightings/:id', updateSighting);
@@ -178,6 +179,28 @@ function getSightingsByLocation(request, response, next) {
             if (results.length == 0) {
                 response.status(404).json({
                     message: `No sightings found with a location matching ${searchTerm}`
+                })
+            }
+            else {
+                response.send(JSON.stringify(results));
+            }
+        })
+        .catch (err => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+}
+
+// GET SIGHTINGS BY REPORTERID
+function getSightingsByReporterID(request, response, next) {
+    const reporterid = parseInt(request.params.id);
+    console.log(`Received request to get sightings reported by user with id ${reporterid}`);
+    dbService.getSightingsByReporterID(reporterid)
+        .then( (results) => {
+            if (results.length == 0) {
+                response.status(404).json({
+                    message: `No sightings found with a reporter matching ${reporterid}`
                 })
             }
             else {
