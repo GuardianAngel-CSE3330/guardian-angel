@@ -2,17 +2,20 @@ import React from 'react';
 import axios from 'axios';
 import parseJwt from '../parsejwt';
 
-class ReportSighting extends React.Component {
+class EditSighting extends React.Component {
 
-    
+    allGhosts = [];
+    obj = {
+    };
     months = [0,1,2,3,4,5,6,7,8,9,10,11];
     days = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24,25,26,27,28,29,30,31];
     years = [1990, 1991, 1992, 1993, 1994, 1995, 1996, 1997, 1998, 1999, 2000,2001,2002,2003,2004,2005,2006,2007,2008,2009,2010,2011,2012,2013,2014,2015,2016,2017,2018,2019,2020];
     spookienessLevel = [1,2,3,4,5];
-    allGhosts = [];
+
     state = {
+        sightingid: 0,
         reporterid: '', 
-        ghostid: '',
+        ghostname: '',
         month: '',
         year: '',
         day: '',
@@ -36,6 +39,9 @@ class ReportSighting extends React.Component {
     }
 
     async componentDidMount() {
+
+        let sightingid = this.props.match.params.id;
+        console.log("This is the sighting id: " + sightingid);
         //decode id token
         await this.createAuthToken();
         console.log("Created token");
@@ -43,7 +49,27 @@ class ReportSighting extends React.Component {
         //get details from decoding id token
         var params = parseJwt(token);
         console.log(JSON.stringify(this.config));
-        this.setState({reporterid: params.id});
+
+        await axios.get(`http://localhost:8000/api/private/sightings/id/${sightingid}`, this.config)
+        .then(res => {
+            //Once you get the bearer token --> store it in local storage
+            console.log(res);
+            this.setState({ghostid: res.data.ghostid});
+            this.setState({month: res.data.month});
+            this.setState({year: res.data.year});
+            this.setState({day: res.data.day});
+            this.setState({location: res.data.location});
+            this.setState({title: res.data.title});
+            this.setState({description: res.data.description});
+            this.setState({imageurl: res.data.imageurl});
+            this.setState({spookiness: res.data.spookiness});
+            this.setState({ghostname:res.data.ghostname});
+            this.setState({sightingid: res.data.sightingid});
+            }   
+        ).catch((e) => {
+            alert(e)
+        });
+
         await axios.get('http://localhost:8000/api/private/ghosts/all',
         this.config
         ).then(res => {
@@ -58,68 +84,52 @@ class ReportSighting extends React.Component {
             alert(e)
         });
     }
-    
 
-    createSighting(){
-        axios.put('http://localhost:8000/api/private/sightings/create',
-        this.state,
-        this.config
-        ).then(res => {
+    UpdateSighting(){
+        
+        axios.patch(`http://localhost:8000/api/private/sightings/${this.state.sightingid}`, 
+        this.obj,
+        this.config,)
+        .then(res => {
             //Once you get the bearer token --> store it in local storage
-            console.log(res)
-            alert("Sighting Submitted!");
+            console.log("Done" + res.data);
+            alert("Sighting was updated!")
             }   
         ).catch((e) => {
-            alert(e)
+            console.log(e);
         });
-        var frm = document.getElementsByName('sighting-form')[0];
-        frm.reset();
-        this.setStatestate = {
-            reporterid: '', 
-            ghostid: '',
-            month: '',
-            year: '',
-            day: '',
-            location: '',
-            title: '',
-            description: '',
-            imageurl: '',
-            spookiness: ''
-        }
-        return false;
     }
-    getGhostID(ghostName){
-        this.allGhosts.map((x) => {
-            if(x.name === ghostName){
-                console.log(x.ghostid);
-                return x.ghostid;
-            }
-        })
-    }
-    
     handleChangeMonth(event){
         this.setState({month: event.target.value-1});
+        this.obj["month"] = event.target.value;
     }
     handleChangeDay(event){
         this.setState({day: event.target.value});
+        this.obj["day"] = event.target.value;
     }
     handleChangeYear(event){
         this.setState({year: event.target.value});
+        this.obj["year"] = event.target.value;
     }
     handleChangeGhostTitle(event){
         this.setState({title: event.target.value});
+        this.obj["title"] = event.target.value;
     }
     handleChangeLocation(event){
         this.setState({location: event.target.value});
+        this.obj["location"] = event.target.value;
     }
     handleChangeGhostImage(event){
         this.setState({imageurl: event.target.value});
+        this.obj["imageurl"] = event.target.value;
     }
     handleChangeDescription(event){
         this.setState({description: event.target.value});
+        this.obj["description"] = event.target.value;
     }
     handleChangeSpookiness(event){
         this.setState({spookiness: event.target.value});
+        this.obj["spookiness"] = event.target.value;
     }
     handleChangeGhostID(event){
         this.allGhosts.map((x) => {
@@ -127,16 +137,16 @@ class ReportSighting extends React.Component {
                 this.setState({ghostid: x.ghostid})
                 console.log(x.ghostid);
             }
-        })
+        });
+        this.obj["ghostid"] = event.target.value;
     }
-
 
     render() {
         return <>
         <div className ="text-center">
             <div className = "block-example border border-dark m-2">
                     <form name ="sighting-form" className="justify-content-center align-items-center">
-                        <h1 className = "formTitle">Report A Ghost Sighting</h1>
+                        <h1 className = "formTitle">Edit Ghost Sighting</h1>
 
                         <div className="form-group">
                             <label htmlFor="sightingTitle">Sighting Title*</label>
@@ -144,7 +154,7 @@ class ReportSighting extends React.Component {
                                 id="sightingTitle"
                                 name="sightingTitle"
                                 className="form-control"
-                                placeholder = "Sighting Title"
+                                value = {this.state.title}
                                 onChange = {e => this.handleChangeGhostTitle(e)}
                                 required/>
                         </div>
@@ -155,7 +165,7 @@ class ReportSighting extends React.Component {
                                 id="location"
                                 name="location"
                                 className="form-control"
-                                placeholder = "Location of Sighting"
+                                value = {this.state.location}
                                 onChange = {e => this.handleChangeLocation(e)}
                                 required/>
                         </div>
@@ -167,6 +177,7 @@ class ReportSighting extends React.Component {
                                     <div className = "col">
                                         <select id="month" name="month"
                                         onChange = {e => this.handleChangeMonth(e)}
+                                        value = {this.state.month}
                                         required>
                                             <option></option>
                                             {
@@ -178,6 +189,7 @@ class ReportSighting extends React.Component {
                                     <div className = "col">
                                         <select id="day" name="day"
                                         onChange = {e => this.handleChangeDay(e)}
+                                        value = {this.state.day}
                                         required>
                                             <option></option>
                                             {
@@ -189,6 +201,7 @@ class ReportSighting extends React.Component {
                                     <div className = "col">
                                         <select id="year" name="year"
                                         onChange = {e => this.handleChangeYear(e)}
+                                        value = {this.state.year}
                                         required>
                                             <option></option>
                                             {
@@ -205,7 +218,7 @@ class ReportSighting extends React.Component {
                             <input type = "text"
                                 id="sightingDesc"
                                 name="sightingDesc"
-                                placeholder = "Description of Ghost"
+                                value = {this.state.description}
                                 className="form-control"
                                 onChange = {e => this.handleChangeDescription(e)}
                                 />
@@ -218,7 +231,7 @@ class ReportSighting extends React.Component {
                                 id="ghostPhoto"
                                 name="ghostPhoto"
                                 className="form-control-photo" 
-                                placeholder = "URL"
+                                value = {this.state.imageurl}
                                 onChange = {e => this.handleChangeGhostImage(e)}/>
                         </div>
 
@@ -227,6 +240,7 @@ class ReportSighting extends React.Component {
                                 <br></br>
                                 <select id="spookieness" name="spookiness"
                                 onChange = {e => this.handleChangeSpookiness(e)}
+                                value = {this.state.spookiness}
                                 required>
                                     <option></option>
                                     {
@@ -241,6 +255,7 @@ class ReportSighting extends React.Component {
                                 <select id="ghostName" name="ghostName"
                                 onChange = {e => this.handleChangeGhostID(e)}
                                 required>
+                                    <option>{this.state.ghostname}</option>
                                     {
                                     this.allGhosts.map((x,i) => <option value={i.ghostid}>{x.name}</option>)
                                     }
@@ -249,8 +264,8 @@ class ReportSighting extends React.Component {
                     </form>
                     <button type = "submit" 
                         className = "btn btn-primary"
-                        onClick= {e => this.createSighting()}>
-                            Submit Sighting
+                        onClick= {e => this.UpdateSighting()}>
+                            Update Sighting
                     </button>
 
             </div>
@@ -259,4 +274,4 @@ class ReportSighting extends React.Component {
     }
 }
 
-export default ReportSighting;
+export default EditSighting;

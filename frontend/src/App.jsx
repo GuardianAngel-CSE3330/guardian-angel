@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './default.css';
 
 //components
 import Header from './components/headerComponent/header';
@@ -15,19 +14,24 @@ import ViewLocation from './components/pages/viewLocation';
 import ViewGhosts from './components/pages/viewGhosts.jsx'
 import ViewSightings from './components/pages/viewSightings.jsx'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
+import EditBio from './components/formsComponent/editBio';
+import MySightings from './components/pages/mySightings.jsx';
+import EditSighting from './components/formsComponent/editSighting';
 
 class App extends Component {
   render(){
       return (
         <Router>
-          <div className="App">   
-      
             <Header/>
 
             <Switch>
               <Route path="/" exact component={Home} />
 
-              <Route path="/editprofile" component={EditProfileForm} />
+              <Route path="/editprofile/:id" component={EditProfileForm} />
+
+              <Route path = "/mysightings/:id" component = {MySightings} />
+
+              <Route path = "/editsighting/:id" component = {EditSighting} />
 
               <Route path="/reportsighting" component={ReportSighting} />
 
@@ -44,13 +48,14 @@ class App extends Component {
               <Route path = '/viewghosts' component = {ViewGhosts} />
 
               <Route path = '/viewsightings' component = {ViewSightings} />
+
+              <Route path = '/editghostbio/:id' component = {EditBio} />
                
             </Switch>
             
 
             <Footer />
 
-          </div>
         </Router>
       
   );

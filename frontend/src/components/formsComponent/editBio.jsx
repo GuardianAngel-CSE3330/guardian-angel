@@ -5,7 +5,9 @@ import parseJwt from '../parsejwt';
 class EditBio extends React.Component {
 
     state = {
-        biography:''
+        ghostid: 0,
+        name: '',
+        biography: ''
     }
 
     config = {
@@ -21,6 +23,9 @@ class EditBio extends React.Component {
     }
 
     async componentDidMount() {
+
+        let ghostid = this.props.match.params.id;
+        console.log("This is the gohst id: " + ghostid);
         //decode id token
         await this.createAuthToken();
         console.log("Created token");
@@ -28,12 +33,32 @@ class EditBio extends React.Component {
         //get details from decoding id token
         var params = parseJwt(token);
         console.log(JSON.stringify(this.config));
-        this.setState({reporterid: params.id});
+
+        await axios.get(`http://localhost:8000/api/private/ghosts/id/${ghostid}`, this.config)
+        .then(res => {
+            //Once you get the bearer token --> store it in local storage
+            console.log(res.data);
+            this.setState({ghostid:res.data.ghostid});
+            this.setState({name: res.data.name});
+            this.setState({biography: res.data.biography});
+            }   
+        );
     }
-    EditBio(){
-        this.setStatestate = {
-            bio: ''
-        }
+    UpdateBio(){
+        let obj= {};
+        obj["biography"] = this.state.biography;
+        
+        axios.patch(`http://localhost:8000/api/private/ghosts/id/${this.state.ghostid}`, 
+        obj,
+        this.config,)
+        .then(res => {
+            //Once you get the bearer token --> store it in local storage
+            console.log("Done" + res.data);
+            alert("Biography was updated!")
+            }   
+        ).catch((e) => {
+            console.log(e);
+        });
     }
     handleChangeGhostBio(event){
         this.setState({biography: event.target.value});
@@ -41,27 +66,26 @@ class EditBio extends React.Component {
 
     render() {
         return <>
-        <div className ="text-center">
+        <div className ="text-center align-middle">
             <div className = "block-example border border-dark m-2">
-                    <form className="justify-content-center align-items-center">
-                        <h1 className = "formTitle">Report A Ghost Sighting</h1>
+                    <form name="ghost-form"className="justify-content-center align-items-center">
+                    <h1 className = "formTitle">{this.state.name}</h1>
 
                         <div className="form-group">
-                            <label htmlFor="sightingTitle">Ghost Biography</label>
+                            <label htmlFor="ghostBio">Ghost Biography*</label>
                             <input type="text"
                                 id="ghostBio"
                                 name="ghostBio"
                                 className="form-control"
-                                placeholder = "Previous Bio"
+                                value={this.state.biography}
                                 onChange = {e => this.handleChangeGhostBio(e)}
                                 required/>
                         </div>
-
                     </form>
                     <button type = "submit" 
                         className = "btn btn-primary"
-                        onClick={e => this.EditBio()}>
-                            Submit Biography
+                        onClick={e => this.UpdateBio()}>
+                            Update Biography
                     </button>
             </div>
         </div>

@@ -1,7 +1,6 @@
 import React from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import EditBio from '../formsComponent/editBio.jsx'
 
 class ViewGhosts extends React.Component {
     state = {
@@ -34,7 +33,9 @@ class ViewGhosts extends React.Component {
             console.log(this.state.allGhosts)
             console.log("All Ghosts" + this.state.allGhosts.map((x) => x.name));
             }   
-        );
+        ).catch((e) => {
+            console.log(e);
+        });
     }
     
     render() {
@@ -52,7 +53,7 @@ class ViewGhosts extends React.Component {
                                 {x.biography}
                             </p>
                             <div className = "text-right">
-                                <Link to="/editbio">
+                                <Link to={'/editghostbio/' + x.ghostid }>
                                     <button className = "btn btn-secondary">
                                         Edit Ghost Biography
                                     </button>

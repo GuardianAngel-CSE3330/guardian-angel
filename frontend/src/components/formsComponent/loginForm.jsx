@@ -17,6 +17,7 @@ class LoginForm extends React.Component{
             var token = JSON.parse(queryResult);
             localStorage.setItem("bearer_token", token.id_token);
             console.log(token.id_token);
+            window.location.replace("http://localhost:3000/");
             }
             //https://www.tutorialrepublic.com/faq/how-to-store-javascript-objects-in-html5-localstorage.php
         )
@@ -41,7 +42,7 @@ class LoginForm extends React.Component{
 
     render(){
         return(
-            <div className = "block-example border border-dark text-center">
+            <div className = "border border-dark text-center">
                 <form name = "login-form">
                     <h2 className ="signUp">Login</h2>
                     <div className = "form-group">
@@ -62,8 +63,9 @@ class LoginForm extends React.Component{
                     </div> 
                 </form>
                 {/* How to make this reload the page so that the login form is hidden?*/}
-                <Link to = "/"><button type="button" className = "btn btn-primary" onClick={e => this.loginWithCredentials()}>Login</button></Link>
+                <Link to = "/"><button type="button" className = "btn btn-primary mr-2" onClick={e => this.loginWithCredentials()}>Login</button></Link>
                <Link to="/register"><button className = "btn btn-secondary">Register</button></Link>
+               
             </div>
         )
     }
