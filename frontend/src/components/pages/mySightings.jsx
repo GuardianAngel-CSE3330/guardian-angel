@@ -46,6 +46,19 @@ class MySightings extends React.Component {
         });
     }
 
+    deleteSighting(sightingid){
+        axios.delete(`http://localhost:8000/api/private/sightings/${sightingid}`, this.config)
+        .then(res => {
+            //Once you get the bearer token --> store it in local storage
+            console.log(res.data);
+            alert("Sighting deleted!");
+            window.location.reload();
+            }   
+        ).catch((e) => {
+            console.log(e);
+        });
+    }
+
     render() {
         return <>
             <h3 className="text-center mt-2">My Reported Sightings</h3>
@@ -63,6 +76,11 @@ class MySightings extends React.Component {
                                 <p className="card-text">Spookiness Level: {x.spookiness}</p>
                             </div>
                         </div>
+                    <div className = "text-right m-3">
+                        <button className = "btn btn-danger" onClick = {e => this.deleteSighting(x.sightingid)}>
+                            Delete
+                        </button>
+                    </div>
                     </div>
                 </div>
                 
