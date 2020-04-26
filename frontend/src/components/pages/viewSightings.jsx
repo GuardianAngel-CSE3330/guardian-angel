@@ -43,8 +43,8 @@ class ViewSightings extends React.Component {
                 <h3 className="text-center mt-2">All Sightings</h3>
                 {
                     this.state.allGhosts.map((x,i) => 
-                    <div key = {i} className = "card m-3">
-                        <h5 className="card-title text-center">{x.title}</h5>
+                    <div className = "card m-3">
+                        <h5 className="card-title text-center mt-2">{x.title}</h5>
                         <h6 className="card-subtitle text-muted text-center">{x.ghostname}: {x.ghostbio}</h6>
                             <div className = "card-body">
                                 <img className="img-fluid float-left rounded mt-4 mr-3" src= {x.imageurl} alt="Card image cap" height="150" width="150"></img>

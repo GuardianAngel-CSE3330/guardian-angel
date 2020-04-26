@@ -68,6 +68,7 @@ class ViewProfile extends React.Component {
                          {" (" +(this.state.roleid===1 ? "Admin" : "Reporter") +")"}
                     </div>
                     <div className = "text-right">
+                        <Link className = "btn btn-warning mr-2" to = {'/mysightings/' + this.state.profile.id}>View My Sightings</Link>
                         <Link className = "btn btn-secondary" to = {'/editprofile/' + this.state.profile.id }> Edit Profile</Link>
                     </div>
                 </div>
@@ -75,9 +76,7 @@ class ViewProfile extends React.Component {
             <div className="clearfix"></div>
             <div className="card-footer"></div>
             <div>
-
-            </div>
-
+        </div>
         </div>
         </>
 

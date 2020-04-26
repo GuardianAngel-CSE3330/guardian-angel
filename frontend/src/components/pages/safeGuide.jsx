@@ -130,7 +130,7 @@ class SafeGuide extends React.Component {
                 <div className = "block-example border border-dark m-2 overflow-auto">
 
                         {this.state.returnedSightings.map((sighting,i) =>
-                            <div className = "card m-3" key = {i}>
+                            <div className = "card m-3">
                             <h5 className="card-title text-center">{sighting.title}</h5>
                              <h6 className="card-subtitle text-muted text-center">{sighting.ghostname} {sighting.sighting}</h6>
                                 <div className = "card-body">
