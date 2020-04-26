@@ -16,6 +16,7 @@ import ViewSightings from './components/pages/viewSightings.jsx'
 import {BrowserRouter as Router, Switch, Route} from 'react-router-dom';
 import EditBio from './components/formsComponent/editBio';
 import MySightings from './components/pages/mySightings.jsx';
+import EditSighting from './components/formsComponent/editSighting';
 
 class App extends Component {
   render(){
@@ -29,6 +30,8 @@ class App extends Component {
               <Route path="/editprofile/:id" component={EditProfileForm} />
 
               <Route path = "/mysightings/:id" component = {MySightings} />
+
+              <Route path = "/editsighting/:id" component = {EditSighting} />
 
               <Route path="/reportsighting" component={ReportSighting} />
 

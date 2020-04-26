@@ -77,6 +77,9 @@ class MySightings extends React.Component {
                             </div>
                         </div>
                     <div className = "text-right m-3">
+                        <Link className = "btn btn-warning mr-2" to = {'/editsighting/' + x.sightingid}>
+                            Edit Sighting
+                        </Link>
                         <button className = "btn btn-danger" onClick = {e => this.deleteSighting(x.sightingid)}>
                             Delete
                         </button>
