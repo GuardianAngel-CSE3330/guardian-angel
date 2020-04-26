@@ -1,9 +1,14 @@
 import React from 'react';
 import ghostLogo from '../images/ghostLogo.png';
 import {Link} from 'react-router-dom';
+
 function Header() {
     const navStyle = {
         color: 'white'
+    }
+    function logout(){
+        localStorage.removeItem("bearer_token");
+        window.location.replace("http://localhost:3000/")
     }
     if(!("bearer_token" in localStorage)){
         return (
@@ -61,6 +66,11 @@ function Header() {
                         <Link style={navStyle} to="/viewsightings">
                             <li className = "nav-item active mx-2 ">
                                 View Sightings
+                            </li>
+                        </Link>
+                        <Link style={navStyle} to = "/" onClick={logout}>
+                            <li className = "nav-item active mx-2 ">
+                                Log Out
                             </li>
                         </Link>
                     </ul>

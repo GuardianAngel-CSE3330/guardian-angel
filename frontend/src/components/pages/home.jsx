@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../default.css';
 
 //components
 import LoginForm from '../formsComponent/loginForm.jsx';
@@ -15,20 +14,12 @@ class Home extends React.Component {
   render(){
       if (!("bearer_token" in localStorage)) {
       return (
-          <div className="home text-center">   
+        <div className="home text-center mt-2">   
             <div className = "container">
-                <div className = "row">
-                    <div className = "col-6">
-                        <SafeGuide />
-                    </div>
-
-                    <div className = "col-6 mt-2">
-                        <LoginForm />
-                    </div>
-                </div>
+                <LoginForm />
             </div>
-
-          </div>
+        </div>
+          
       )
     } else {
         return (

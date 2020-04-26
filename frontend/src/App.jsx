@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './default.css';
 
 //components
 import Header from './components/headerComponent/header';
@@ -21,8 +20,6 @@ class App extends Component {
   render(){
       return (
         <Router>
-          <div className="App">   
-      
             <Header/>
 
             <Switch>
@@ -53,7 +50,6 @@ class App extends Component {
 
             <Footer />
 
-          </div>
         </Router>
       
   );
