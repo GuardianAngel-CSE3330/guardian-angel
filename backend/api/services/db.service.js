@@ -272,15 +272,54 @@ function getSightingsByLocation(locSearchString) {
 }
 
 function getSightingsByReporterID(reporterID) {
-    const q = `SELECT * from sightings where sightings.reporterid = ${reporterID}`;
+    const q = `SELECT sightings.*,
+                    ghosts.name as ghostname, 
+                    ghosts.biography as ghostbio, 
+                    users.email as reporteremail,
+                    users.firstname as reporterfirstname,
+                    users.lastname as reporterlastname
+                FROM sightings 
+                LEFT JOIN ghosts
+                    ON sightings.ghostid = ghosts.ghostid
+                LEFT JOIN users
+                    ON sightings.reporterid = users.id
+                WHERE sightings.reporterid = ${reporterID}`;
 
     return new Promise( (resolve, reject) => {
         connection().query(q, (error, results, fields) => {
             if (error) {
-                reject (error);
+                reject(error);
             }
             else {
                 resolve(results);
+            }
+        })
+    })
+}
+
+function getSightingByID(sightingID) {
+    const q = `SELECT sightings.*,
+                    ghosts.name as ghostname, 
+                    ghosts.biography as ghostbio, 
+                    users.email as reporteremail,
+                    users.firstname as reporterfirstname,
+                    users.lastname as reporterlastname
+                FROM sightings 
+                LEFT JOIN ghosts
+                    ON sightings.ghostid = ghosts.ghostid
+                LEFT JOIN users
+                    ON sightings.reporterid = users.id
+                WHERE sightings.sightingid = ${sightingID}`;
+    return new Promise( (resolve, reject) => {
+        connection().query(q, (error, results, fields) => {
+            if (error) {
+                reject(error);
+            }
+            else if (results) {
+                resolve(results[0]);
+            }
+            else {
+                reject(false);
             }
         })
     })
@@ -474,6 +513,7 @@ module.exports =  {
     getSightingLocations,
     getSightingsByLocation,
     getSightingsByReporterID,
+    getSightingByID,
     deleteSightingByID,
     updateSighting,
     createGhost,

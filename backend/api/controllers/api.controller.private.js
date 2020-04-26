@@ -19,6 +19,7 @@ router.get('/sightings/all', getAllSightings);
 router.get('/sightings/ghost/:ghost', getSightingsByGhost);
 router.get('/sightings/location/:searchterm', getSightingsByLocation);
 router.get('/sightings/reporter/:id', getSightingsByReporterID);
+router.get('/sightings/id/:id', getSightingByID);
 router.get('/sightings/locations', getSightingLocations);
 router.delete('/sightings/:id', deleteSightingByID);
 router.patch('/sightings/:id', updateSighting);
@@ -208,6 +209,29 @@ function getSightingsByReporterID(request, response, next) {
             }
         })
         .catch (err => {
+            response.status(500).json({
+                message: `Error: ${err}`
+            })
+        })
+}
+
+// GET A SINGLE SIGHTING BY ID
+function getSightingByID(request, response, next) {
+    const id = parseInt(request.params.id);
+    console.log(`Received request to get a sighting with id ${id}`);
+
+    dbService.getSightingByID(id)
+        .then( results => {
+            if (results) {
+                response.send(JSON.stringify(results));
+            }
+            else {
+                response.status(404).json({
+                    message: `No sighting found with ID of ${id}`
+                })
+            }
+        })
+        .catch ( err => {
             response.status(500).json({
                 message: `Error: ${err}`
             })
