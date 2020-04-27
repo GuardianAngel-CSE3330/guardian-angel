@@ -67,6 +67,7 @@ class MySightings extends React.Component {
                 <div className = "container">
                     <div  className = "card m-3">
                     <h5 className="card-title mt-2 text-center">{x.title}</h5>
+                        <h6 className="card-subtitle text-muted text-center">{x.ghostname}</h6>
                         <div className = "card-body">
                             <img className="img-fluid float-left rounded mt-4 mr-3" src= {x.imageurl} alt="Card image cap" height="150" width="150"></img>
                             <div className="card-body d-block">

@@ -4,7 +4,6 @@ import parseJwt from '../parsejwt';
 
 class EditSighting extends React.Component {
 
-    allGhosts = [];
     obj = {
     };
     months = [0,1,2,3,4,5,6,7,8,9,10,11];
@@ -54,7 +53,6 @@ class EditSighting extends React.Component {
         .then(res => {
             //Once you get the bearer token --> store it in local storage
             console.log(res);
-            this.setState({ghostid: res.data.ghostid});
             this.setState({month: res.data.month});
             this.setState({year: res.data.year});
             this.setState({day: res.data.day});
@@ -65,20 +63,6 @@ class EditSighting extends React.Component {
             this.setState({spookiness: res.data.spookiness});
             this.setState({ghostname:res.data.ghostname});
             this.setState({sightingid: res.data.sightingid});
-            }   
-        ).catch((e) => {
-            alert(e)
-        });
-
-        await axios.get('http://localhost:8000/api/private/ghosts/all',
-        this.config
-        ).then(res => {
-            //Once you get the bearer token --> store it in local storage
-            console.log(res);
-
-            this.allGhosts = [...res.data];
-            console.log("all ghosts");
-            console.log("All ghosts " + this.allGhosts.map((x) => x.ghostid));
             }   
         ).catch((e) => {
             alert(e)
@@ -131,22 +115,13 @@ class EditSighting extends React.Component {
         this.setState({spookiness: event.target.value});
         this.obj["spookiness"] = event.target.value;
     }
-    handleChangeGhostID(event){
-        this.allGhosts.map((x) => {
-            if(x.name === event.target.value){
-                this.setState({ghostid: x.ghostid})
-                console.log(x.ghostid);
-            }
-        });
-        this.obj["ghostid"] = event.target.value;
-    }
 
     render() {
         return <>
         <div className ="text-center">
             <div className = "block-example border border-dark m-2">
                     <form name ="sighting-form" className="justify-content-center align-items-center">
-                        <h1 className = "formTitle">Edit Ghost Sighting</h1>
+                        <h1 className = "formTitle">Edit {this.state.ghostname} Sighting</h1>
 
                         <div className="form-group">
                             <label htmlFor="sightingTitle">Sighting Title*</label>
@@ -245,19 +220,6 @@ class EditSighting extends React.Component {
                                     <option></option>
                                     {
                                     this.spookienessLevel.map((x,i) => <option key = {i}> { x }</option>)
-                                    }
-                                </select>
-                        </div>
-
-                        <div className="form-group">
-                            <label htmlFor="ghostName">Ghost's Name</label>
-                                <br></br>
-                                <select id="ghostName" name="ghostName"
-                                onChange = {e => this.handleChangeGhostID(e)}
-                                required>
-                                    <option>{this.state.ghostname}</option>
-                                    {
-                                    this.allGhosts.map((x,i) => <option value={i.ghostid}>{x.name}</option>)
                                     }
                                 </select>
                         </div>
