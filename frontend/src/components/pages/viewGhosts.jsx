@@ -24,7 +24,7 @@ class ViewGhosts extends React.Component {
         console.log("Created token");
         //get details from decoding id token
         console.log(JSON.stringify(this.config));
-        axios.get('http://localhost:8000/api/private/ghosts/all',
+        await axios.get('http://localhost:8000/api/private/ghosts/all',
         this.config
         ).then(res => {
             //Once you get the bearer token --> store it in local storage
@@ -39,8 +39,7 @@ class ViewGhosts extends React.Component {
     }
     
     render() {
-    
-        return <>
+            return <>
                 <h3 className="text-center mt-2">All Ghosts</h3>
                 {
                     this.state.allGhosts.map((x,i) => 
@@ -63,10 +62,7 @@ class ViewGhosts extends React.Component {
                     </div>)
                 }
         </>
-
     }
-
-
 }
 
 export default ViewGhosts;
