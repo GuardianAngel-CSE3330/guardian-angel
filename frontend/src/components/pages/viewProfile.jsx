@@ -44,6 +44,7 @@ class ViewProfile extends React.Component {
         await axios.get(`http://localhost:8000/api/private/users/${params.id}`, this.config)
         .then((res) => {
             console.log(res);
+            console.log(res.data);
             this.setState({profile: res.data});
         })
         .catch((e) => {
@@ -64,8 +65,8 @@ class ViewProfile extends React.Component {
                     alt="Profile" height="100" width="100"></img>
                     <h4>Name: {this.state.profile.firstname + " " + this.state.profile.lastname} </h4>
                     <div className="badge badge-primary">
-                        Role:
-                         {" (" +(this.state.roleid===1 ? "Admin" : "Reporter") +")"}
+                        Role: 
+                         {" (" +(this.state.profile.roleid===1 ? "Admin" :(this.state.profile.roleid===2 ? "Reporter" : "Exorcist")) +")"}
                     </div>
                     <div className = "text-right">
                         <Link className = "btn btn-warning mr-2" to = {'/mysightings/' + this.state.profile.id}>View My Sightings</Link>

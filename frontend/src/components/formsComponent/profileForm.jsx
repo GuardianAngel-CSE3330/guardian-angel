@@ -109,7 +109,7 @@ class ProfileForm extends React.Component {
                         required>
                             <option></option>
                             <option value="1">Admin</option>
-                            <option value="2">User</option>
+                            <option value="2">Reporter</option>
                             <option value="3">Exorcist</option>
                         </select>
                     </div>
