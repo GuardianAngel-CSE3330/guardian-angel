@@ -66,7 +66,7 @@ class ViewProfile extends React.Component {
                     <h4>Name: {this.state.profile.firstname + " " + this.state.profile.lastname} </h4>
                     <div className="badge badge-primary">
                         Role: 
-                         {" (" +(this.state.profile.roleid===1 ? "Admin" :(this.state.profile.roleid===2 ? "Reporter" : "Exorcist")) +")"}
+                         {" (" +(this.state.profile.roleid===1 ? "Admin" : "Reporter") +")"}
                     </div>
                     <div className = "text-right">
                         <Link className = "btn btn-warning mr-2" to = {'/mysightings/' + this.state.profile.id}>View My Sightings</Link>
