@@ -110,7 +110,6 @@ class ProfileForm extends React.Component {
                             <option></option>
                             <option value="1">Admin</option>
                             <option value="2">Reporter</option>
-                            <option value="3">Exorcist</option>
                         </select>
                     </div>
 
